@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>YSeriesHub — นโยบายความเป็นส่วนตัว</title>
+  <meta name="description" content="นโยบายความเป็นส่วนตัวของ YSeriesHub อธิบายถึงข้อมูลที่เราเก็บ ใช้ เปิดเผย และสิทธิของผู้ใช้ตามกฎหมายคุ้มครองข้อมูลส่วนบุคคล" />
+  <style>
+    
+    :root {
+      --bg: #ffffff;
+      --card: #ffffff;
+      --ink: #0f172a; 
+      --muted: #475569; 
+      --line: #e5e7eb; 
+      --accent: #0b2a4a; 
+      --accent-2: #b58b2a; 
+      --accent-3: #1f2937; 
+      --pill: #f8fafc;
+      --focus: #c7a23f; 
+    }
+
+    
+    html, body { height: 100%; }
+    body {
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Noto Sans Thai", "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji";
+      margin: 0;
+      color: var(--ink);
+      background: var(--bg);
+      line-height: 1.8;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    .container {
+      max-width: 960px;
+      margin: 48px auto;
+      padding: 0 20px;
+    }
+
+    
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 24px 0 18px;
+      border-bottom: 1px solid var(--line);
+    }
+    .logo {
+      width: 44px; height: 44px; border-radius: 999px;
+      background: radial-gradient(80% 100% at 30% 20%, #123457 0%, #0b2a4a 60%, #071a31 100%);
+      box-shadow: 0 4px 14px rgba(2, 6, 23, 0.15) inset, 0 1px 0 rgba(255,255,255,0.2);
+      display: grid; place-items: center;
+    }
+    .logo span {
+      font-weight: 800; color: #fff; font-size: 22px; letter-spacing: 0.5px;
+    }
+    .brand h1 {
+      margin: 0;
+      font-size: clamp(20px, 2.4vw, 28px);
+      letter-spacing: .3px;
+      font-weight: 800;
+    }
+    .brand small { color: var(--muted); display: block; margin-top: 2px; }
+
+    .meta {
+      display: flex; flex-wrap: wrap; gap: 8px 12px; align-items: center;
+      padding: 12px 0 0; color: var(--muted);
+    }
+    .pill {
+      background: var(--pill); border: 1px solid var(--line);
+      padding: 6px 10px; border-radius: 999px; font-size: 13px;
+    }
+
+  
+    .card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 28px;
+      box-shadow: 0 6px 24px rgba(2, 6, 23, 0.05);
+    }
+    .lead {
+      font-size: clamp(15px, 2.1vw, 17px);
+      color: var(--muted);
+      margin: 8px 0 2px;
+    }
+    h2 { font-size: 20px; margin: 28px 0 10px; }
+    h3 { font-size: 16.5px; margin: 18px 0 8px; color: var(--accent-3); }
+
+    .rule {
+      height: 1px; background: linear-gradient(90deg, transparent, var(--line), transparent);
+      border: 0; margin: 14px 0 24px;
+    }
+
+
+    .toc {
+      display: grid; gap: 6px; margin: 14px 0 24px;
+      padding: 14px; background: #fafafa; border: 1px dashed var(--line); border-radius: 10px;
+    }
+    .toc a { color: var(--accent); text-decoration: none; }
+    .toc a:hover { text-decoration: underline; }
+
+
+    ul { padding-left: 20px; }
+    li { margin: 6px 0; }
+
+    .callout {
+      border: 1px solid var(--line);
+      background: #fcfcfc;
+      border-left: 4px solid var(--accent-2);
+      border-radius: 8px;
+      padding: 12px 14px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .kbd { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 12.5px; background: #f3f4f6; border: 1px solid #e5e7eb; padding: 2px 6px; border-radius: 6px; }
+
+    .actions {
+      display: flex; gap: 12px; flex-wrap: wrap; justify-content: flex-end; margin-top: 24px;
+    }
+    .btn {
+      appearance: none; border: 1px solid var(--line); background: #fff; color: var(--accent);
+      padding: 10px 14px; border-radius: 10px; cursor: pointer; font-weight: 600; letter-spacing: .2px;
+      transition: box-shadow .2s ease, transform .08s ease;
+    }
+    .btn:hover { box-shadow: 0 6px 18px rgba(2,6,23,.08); }
+    .btn:active { transform: translateY(1px); }
+    .btn.primary {
+      background: linear-gradient(180deg, #0f2d52, #0b2a4a);
+      color: #fff; border-color: #0b2a4a;
+    }
+
+    a:focus, button:focus { outline: 3px solid var(--focus); outline-offset: 2px; }
+
+    .backtop {
+      position: fixed; right: 20px; bottom: 20px; z-index: 10; display: none;
+      background: #fff; border: 1px solid var(--line); border-radius: 999px; padding: 10px 12px; color: var(--accent);
+      box-shadow: 0 8px 22px rgba(2,6,23,.14);
+    }
+    .backtop.show { display: inline-flex; }
+
+    @media print {
+      .actions, .backtop { display: none !important; }
+      .brand { border-bottom: none; }
+      .card { box-shadow: none; border-radius: 0; border: none; padding: 0; }
+      .container { margin: 0; max-width: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header class="brand" role="banner">
+      <div class="logo" aria-hidden="true"><span>Y</span></div>
+      <div>
+        <h1>นโยบายความเป็นส่วนตัว (Privacy Policy)</h1>
+        <small>สำหรับบริการ YSeriesHub</small>
+      </div>
+    </header>
+
+    <section class="meta" aria-label="ข้อมูลทั่วไปของเอกสาร">
+      <span class="pill">อัปเดตล่าสุด: 23 ส.ค. 2025</span>
+      <span class="pill">เวอร์ชัน: 1.0</span>
+      <span class="pill">ภาษา: ไทย</span>
+    </section>
+
+    <main class="card" role="main">
+      <p class="lead">เอกสารนี้อธิบายว่า YSeriesHub (ต่อไปนี้เรียกว่า “เรา”) เก็บ ใช้ เปิดเผย และปกป้องข้อมูลส่วนบุคคลของคุณอย่างไร รวมถึงสิทธิของคุณตามกฎหมายคุ้มครองข้อมูลส่วนบุคคลที่บังคับใช้</p>
+
+      <hr class="rule" />
+
+      <nav class="toc" aria-label="สารบัญ">
+        <strong style="margin-bottom:6px;">สารบัญ</strong>
+        <a href="#scope">1) ขอบเขตและคำนิยาม</a>
+        <a href="#collect">2) ข้อมูลที่เราเก็บ</a>
+        <a href="#use">3) วัตถุประสงค์การใช้ข้อมูล</a>
+        <a href="#share">4) การเปิดเผย/โอนข้อมูล</a>
+        <a href="#cookies">5) คุกกี้และเทคโนโลยีคล้ายคลึงกัน</a>
+        <a href="#security">6) ความมั่นคงปลอดภัยของข้อมูล</a>
+        <a href="#retention">7) ระยะเวลาเก็บรักษา</a>
+        <a href="#rights">8) สิทธิของเจ้าของข้อมูล</a>
+        <a href="#minor">9) เด็กและเยาวชน</a>
+        <a href="#contact">10) ช่องทางติดต่อเรา</a>
+        <a href="#changes">11) การเปลี่ยนแปลงนโยบาย</a>
+      </nav>
+
+      <section id="scope">
+        <h2>1) ขอบเขตและคำนิยาม</h2>
+        <p>นโยบายนี้ครอบคลุมบริการเว็บไซต์ แอปพลิเคชัน และแพลตฟอร์มที่ดำเนินการโดย YSeriesHub รวมถึงคุณลักษณะทั้งหมดที่เกี่ยวข้องกับการสตรีมและการเป็นสมาชิก</p>
+        <div class="callout">“ข้อมูลส่วนบุคคล” หมายถึง ข้อมูลที่สามารถระบุตัวตนบุคคลได้โดยตรงหรือโดยอ้อม เช่น ชื่อ อีเมล หมายเลขโทรศัพท์ ที่อยู่ IP หรือตัวระบุอุปกรณ์</div>
+      </section>
+
+      <section id="collect">
+        <h2>2) ข้อมูลที่เราเก็บ</h2>
+        <h3>2.1 ข้อมูลที่คุณให้กับเรา</h3>
+        <ul>
+          <li>ข้อมูลบัญชี: ชื่อ-สกุล อีเมล เบอร์โทรศัพท์ รหัสผ่าน (เก็บในรูปแบบเข้ารหัส)</li>
+          <li>ข้อมูลการชำระเงิน/การสมัครสมาชิก (ประมวลผลผ่านผู้ให้บริการชำระเงินที่ได้รับอนุญาต)</li>
+          <li>การสื่อสารกับฝ่ายสนับสนุนและแบบฟอร์มต่าง ๆ</li>
+        </ul>
+        <h3>2.2 ข้อมูลที่เกิดจากการใช้งานบริการ</h3>
+        <ul>
+          <li>บันทึกการใช้งาน: ที่อยู่ IP เวลาการเข้าใช้ ประเภทเบราว์เซอร์ อุปกรณ์ ระบบปฏิบัติการ</li>
+          <li>กิจกรรมการรับชม: ประวัติการดู การค้นหา การตั้งค่าคุณภาพการเล่น</li>
+          <li>คุกกี้และตัวระบุออนไลน์ (ดูหัวข้อคุกกี้)</li>
+        </ul>
+        <h3>2.3 ข้อมูลจากบุคคลที่สาม</h3>
+        <ul>
+          <li>ผู้ให้บริการชำระเงินและการยืนยันตัวตน</li>
+          <li>พาร์ทเนอร์ทางการตลาด/อ้างอิง (เมื่อคุณยินยอม)</li>
+        </ul>
+      </section>
+
+      <section id="use">
+        <h2>3) วัตถุประสงค์การใช้ข้อมูล</h2>
+        <ul>
+          <li>ให้บริการสตรีมมิ่งและจัดการบัญชีสมาชิก</li>
+          <li>ปรับปรุงประสบการณ์ผู้ใช้ แนะนำคอนเทนต์ตามความสนใจ</li>
+          <li>ป้องกันการทุจริต การใช้ผิดวัตถุประสงค์ และเพื่อความปลอดภัยของระบบ</li>
+          <li>การเรียกเก็บเงิน บัญชี และการสนับสนุนลูกค้า</li>
+          <li>การปฏิบัติตามกฎหมายและข้อกำหนดที่เกี่ยวข้อง</li>
+          <li>สื่อสารข่าวสาร โปรโมชั่น หรือข้อเสนอ (คุณสามารถยกเลิกได้ทุกเมื่อ)</li>
+        </ul>
+      </section>
+
+      <section id="share">
+        <h2>4) การเปิดเผย/โอนข้อมูล</h2>
+        <ul>
+          <li>ผู้ประมวลผลข้อมูลที่ช่วยดำเนินการบริการ (เช่น โฮสติ้ง ชำระเงิน วิเคราะห์ระบบ) ภายใต้สัญญาคุ้มครองข้อมูล</li>
+          <li>การโอนข้อมูลข้ามพรมแดนจะทำภายใต้มาตรการคุ้มครองที่เหมาะสมตามกฎหมาย</li>
+          <li>เมื่อจำเป็นตามกฎหมาย คำสั่งศาล หรือเพื่อคุ้มครองสิทธิ ความปลอดภัย ทรัพย์สินของเรา/ผู้ใช้</li>
+        </ul>
+      </section>
+
+      <section id="cookies">
+        <h2>5) คุกกี้และเทคโนโลยีคล้ายคลึงกัน</h2>
+        <p>เราใช้คุกกี้เพื่อจดจำการตั้งค่าของคุณ วิเคราะห์การใช้งาน และปรับปรุงประสิทธิภาพของแพลตฟอร์ม คุณสามารถจัดการคุกกี้ได้จากการตั้งค่าเบราว์เซอร์ของคุณ</p>
+        <ul>
+          <li>คุกกี้จำเป็น (Strictly Necessary)</li>
+          <li>คุกกี้เพื่อประสิทธิภาพและการวิเคราะห์</li>
+          <li>คุกกี้เพื่อการปรับแต่งและการตลาด (ใช้งานเมื่อได้รับความยินยอม)</li>
+        </ul>
+      </section>
+
+      <section id="security">
+        <h2>6) ความมั่นคงปลอดภัยของข้อมูล</h2>
+        <p>เรานำมาตรการด้านเทคนิคและองค์กรมาใช้ เช่น การเข้ารหัสระหว่างส่งข้อมูล (TLS) การจำกัดสิทธิการเข้าถึง และแนวปฏิบัติด้านความปลอดภัยเพื่อป้องกันการเข้าถึง การใช้ หรือการเปิดเผยข้อมูลโดยไม่ได้รับอนุญาต</p>
+      </section>
+
+      <section id="retention">
+        <h2>7) ระยะเวลาเก็บรักษา</h2>
+        <p>เราจะเก็บรักษาข้อมูลส่วนบุคคลเท่าที่จำเป็นเพื่อบรรลุวัตถุประสงค์ตามนโยบายนี้ หรือเท่าที่กฎหมายกำหนด หลังจากนั้นจะลบหรือทำให้เป็นข้อมูลไม่ระบุตัวตน</p>
+      </section>
+
+      <section id="rights">
+        <h2>8) สิทธิของเจ้าของข้อมูล</h2>
+        <p>ตามกฎหมายคุ้มครองข้อมูลส่วนบุคคลที่บังคับใช้ คุณอาจมีสิทธิในการ:</p>
+        <ul>
+          <li>เข้าถึงและขอรับสำเนาข้อมูลส่วนบุคคล</li>
+          <li>ขอให้แก้ไขให้ถูกต้องหรืออัปเดต</li>
+          <li>คัดค้านหรือจำกัดการประมวลผลในบางกรณี</li>
+          <li>เพิกถอนความยินยอม (โดยไม่กระทบต่อการประมวลผลก่อนเพิกถอน)</li>
+          <li>ขอให้ลบข้อมูลเมื่อไม่มีความจำเป็นอีกต่อไป</li>
+          <li>ขอให้โอนย้ายข้อมูลในรูปแบบที่เครื่องอ่านได้ (ที่ใช้บังคับ)</li>
+        </ul>
+        <p class="callout">ในการใช้สิทธิ โปรดติดต่อเราตามช่องทางด้านล่างและระบุคำขอของคุณอย่างชัดเจน เราจะดำเนินการตามระยะเวลาที่กฎหมายกำหนด</p>
+      </section>
+
+      <section id="minor">
+        <h2>9) เด็กและเยาวชน</h2>
+        <p>บริการของเราไม่ได้มุ่งเน้นไปที่ผู้ใช้อายุต่ำกว่าที่กฎหมายกำหนด หากทราบว่าเราเก็บข้อมูลจากผู้เยาว์โดยไม่ได้รับความยินยอมที่จำเป็น เราจะดำเนินการลบข้อมูลดังกล่าว</p>
+      </section>
+
+      <section id="contact">
+        <h2>10) ช่องทางติดต่อเรา</h2>
+        <p>หากมีคำถามเกี่ยวกับนโยบายนี้ คำขอใช้สิทธิ หรือข้อร้องเรียน โปรดติดต่อ:</p>
+        <ul>
+          <li>อีเมลฝ่ายคุ้มครองข้อมูล: <a href="" aria-label="อีเมลฝ่ายความเป็นส่วนตัว"></a></li>
+          <li>ที่อยู่ไปรษณีย์: YSeriesHub  </li>
+        </ul>
+      </section>
+
+      <section id="changes">
+        <h2>11) การเปลี่ยนแปลงนโยบาย</h2>
+        <p>เราอาจปรับปรุงนโยบายนี้เป็นครั้งคราว โดยจะแจ้งผ่านเว็บไซต์ของเรา เวอร์ชันที่ประกาศล่าสุดจะมีผลบังคับใช้ทันที เว้นแต่จะระบุไว้เป็นอย่างอื่น</p>
+      </section>
+
+      <div class="actions">
+        <button class="btn" type="button" onclick="window.print()">พิมพ์เอกสาร</button>
+        <a class="btn primary" href="#top" onclick="window.scrollTo({top:0, behavior:'smooth'})">กลับขึ้นด้านบน</a>
+      </div>
+    </main>
+  </div>
+
+  <a href="#top" class="backtop" id="backtop" aria-label="กลับขึ้นด้านบน">↑</a>
+
+  <script>
+
+    const bt = document.getElementById('backtop');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 400) {
+        bt.classList.add('show');
+      } else {
+        bt.classList.remove('show');
+      }
+    });
+  </script>
+</body>
+</html>
