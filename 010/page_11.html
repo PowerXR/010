@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>นักแสดงซีรีส์วาย — ฟีล Netflix (ครบ 20 + local image fallback)</title>
+  <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#141414; --card:#222; --accent:#e50914; --muted:#bfbfbf;
+    }
+    *{box-sizing:border-box}
+    body{margin:0; font-family:'Prompt',sans-serif; background:var(--bg); color:#fff; -webkit-font-smoothing:antialiased;}
+    header{padding:36px 20px 6px; text-align:center;}
+    header h1{margin:0; font-size:40px; color:var(--accent); font-weight:700; letter-spacing:1px;}
+    header p{margin:8px 0 0; color:var(--muted);}
+    .controls{display:flex; gap:12px; justify-content:center; align-items:center; padding:18px 20px 28px;}
+    .controls input, .controls select{background:#1a1a1a; border:1px solid rgba(255,255,255,0.04); color:#fff; padding:10px 12px; border-radius:8px; font-size:14px; outline:none;}
+    .controls input{flex:1; min-width:220px;}
+    .actors-grid{max-width:1400px; margin:0 auto 60px; padding:0 20px; display:grid; gap:20px; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));}
+    .actor-card{background:var(--card); border-radius:10px; overflow:hidden; position:relative; cursor:default; transition: transform .22s, box-shadow .22s;}
+    .actor-card:hover{transform: scale(1.06); box-shadow:0 18px 40px rgba(0,0,0,0.7); z-index:5;}
+    .actor-card img{width:100%; height:280px; object-fit:cover; background:linear-gradient(180deg,#111,#1a1a1a);}
+    .actor-overlay{position:absolute; left:0; bottom:-100%; width:100%; height:100%; padding:14px; background:linear-gradient(to top, rgba(0,0,0,0.95) 25%, rgba(0,0,0,0.35) 70%, rgba(0,0,0,0)); transition: bottom .36s cubic-bezier(.2,.9,.3,1); display:flex; flex-direction:column; justify-content:flex-end;}
+    .actor-card:hover .actor-overlay{bottom:0;}
+    .actor-overlay h3{margin:0 0 6px; font-size:16px; font-weight:600;}
+    .actor-overlay .meta{margin:0; color:var(--muted); font-size:13px;}
+    .actor-overlay .meta + .meta{margin-top:6px;}
+    .actor-overlay .row{display:flex; gap:10px; align-items:center; margin-top:10px; flex-wrap:wrap;}
+    .btn{background:var(--accent); color:#fff; padding:7px 12px; font-size:13px; border:none; border-radius:6px; text-decoration:none; font-weight:600; display:inline-block;}
+    .btn:hover{background:var(--accent-2);}
+    @media (max-width:520px){ .actor-card img{height:200px;} header h1{font-size:28px;} }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>แนะนำนักแสดงซีรีส์วาย</h1>
+    <p>Hover ดูรายละเอียด • ค้นชื่อหรือกรองบทบาท</p>
+  </header>
+
+  <div class="controls">
+    <select id="roleFilter">
+      <option value="all">นักแสดงทั้งหมด</option>
+      <option value="พระเอก">พระเอก</option>
+      <option value="นายเอก">นายเอก</option>
+      <option value="ตัวร้าย">ตัวร้าย</option>
+    </select>
+    <input id="searchInput" type="search" placeholder="ค้นหาชื่อ..." />
+  </div>
+
+  <section class="actors-grid" id="actorsGrid"></section>
+
+  <script>
+    const actors = [
+      { displayName: "Suppasit Jongcheveevat (Mew)", short: "Tharn – TharnType", birth: "21 ก.พ. 1991", role: "พระเอก", wikiDomain: "th", wikiTitle: "ศุภศิษฏ์_จงชีวีวัฒน์", localImage: "images/mew.jpg" },
+      { displayName: "Metawin Opas-iamkajorn (Win)", short: "2gether / F4 Thailand", birth: "21 ก.พ. 1999", role: "นายเอก", wikiDomain: "th", wikiTitle: "เมธวิน_โอภาสเอี่ยมขจร", localImage: "images/win.jpg" },
+      { displayName: "Kanawut Traipipattanapong (Gulf)", short: "TharnType", birth: "4 ธ.ค. 1997", role: "นายเอก", wikiDomain: "th", wikiTitle: "คณาวุฒิ_ไตรพิพัฒนพงษ์", localImage: "images/gulf.jpg" },
+      { displayName: "Pirapat Watthanasetsiri (Earth)", short: "A Tale of Thousand Stars", birth: "23 ก.พ. 1994", role: "พระเอก", wikiDomain: "th", wikiTitle: "พิรพัฒน์_วัฒนเศรษสิริ", localImage: "images/earth.jpg" },
+      { displayName: "Wanarat Ratsameerat (War)", short: "Love Mechanics / Jack & Joker", birth: "23 มิ.ย. 1994", role: "นายเอก", wikiDomain: "th", wikiTitle: "วรารัตน์_รัศมีรัตน์", localImage: "images/war.jpg" },
+      { displayName: "Natouch Siripongthon (Fluke)", short: "Grean Fictions / My Bromance", birth: "1 มิ.ย. 1996", role: "นายเอก", wikiDomain: "th", wikiTitle: "ณธัช_ศิริพงษ์ธร", localImage: "images/fluke.jpg" },
+      { displayName: "Vachiravit Paisarnkulwong (August)", short: "Pete – Love Sick", birth: "31 ส.ค. 1996", role: "พระเอก", wikiDomain: "th", wikiTitle: "วัชรวิชญ์_ไพศาลกุลวงศ์", localImage: "images/august.jpg" },
+      { displayName: "Atthaphan Phunsawat (Gun)", short: "Theory of Love / Not Me", birth: "4 ต.ค. 1993", role: "นายเอก", wikiDomain: "th", wikiTitle: "อรรถพันธ์_พูลสวัสดิ์", localImage: "images/gun.jpg" },
+      { displayName: "Off Jumpol", short: "Theory of Love / Not Me", birth: "1992–1993", role: "พระเอก", wikiDomain: "th", wikiTitle: "จุมพล_อดุลกิตติพร", localImage: "images/off.jpg" },
+      { displayName: "Krist Perawat", short: "SOTUS", birth: "18 ต.ค. 1995", role: "พระเอก", wikiDomain: "th", wikiTitle: "พีรวัส_แสงโพธิรัตน์", localImage: "images/krist.jpg" },
+      { displayName: "Saint Suppapong", short: "Love by Chance", birth: "1994", role: "นายเอก", wikiDomain: "en", wikiTitle: "Saint_Suppapong", localImage: "images/saint.jpg" },
+      { displayName: "Perth Tanapon", short: "Love by Chance", birth: "1990s", role: "นายเอก", wikiDomain: "en", wikiTitle: "Perth_Tanapon", localImage: "images/perth.jpg" },
+      { displayName: "Nunew Charawin", short: "Cutie Pie (2022)", birth: "2000s", role: "นายเอก", wikiDomain: null, wikiTitle: null, localImage: "images/nunew.jpg" },
+      { displayName: "Boun Noppanut", short: "Until We Meet Again", birth: "1995", role: "พระเอก", wikiDomain: "en", wikiTitle: "Boun_Noppanut", localImage: "images/boun.jpg" },
+      { displayName: "Ohm Pawat", short: "Bad Buddy", birth: "22 มี.ค. 2000", role: "พระเอก", wikiDomain: "th", wikiTitle: "พวัช_ชิตสว่างดี", localImage: "images/ohm.jpg" },
+      { displayName: "Nanon Korapat", short: "Bad Buddy", birth: "2003", role: "นายเอก", wikiDomain: "th", wikiTitle: "กรภัทร์_เกิดพันธุ์", localImage: "images/nanon.jpg" },
+      { displayName: "Zee Pruk", short: "Why R U?", birth: "1990s", role: "พระเอก", wikiDomain: "en", wikiTitle: "Zee_Pruk_Panich", localImage: "images/zee.jpg" },
+      { displayName: "Apo Nattawin", short: "KinnPorsche", birth: "1999", role: "พระเอก", wikiDomain: "en", wikiTitle: "Nattawin_Wattanagitiphat", localImage: "images/apo.jpg" },
+      { displayName: "Mile Phakphum", short: "KinnPorsche", birth: "1990s", role: "พระเอก", wikiDomain: "en", wikiTitle: "Mile_Phakhphum", localImage: "images/mile.jpg" },
+      { displayName: "Bonus Actor", short: "-", birth: "-", role: "พระเอก", wikiDomain: null, wikiTitle: null, localImage: "images/bonus.jpg" }
+    ];
+
+    const grid = document.getElementById('actorsGrid');
+    const placeholder = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="600" height="800"><rect width="100%" height="100%" fill="#1a1a1a"/><text x="50%" y="50%" font-size="20" fill="#888" text-anchor="middle">No Image</text></svg>';
+
+    actors.forEach(a=>{
+      const card = document.createElement('article');
+      card.className = 'actor-card';
+      card.dataset.role = a.role;
+      card.dataset.name = a.displayName;
+
+      const img = document.createElement('img');
+      img.alt = a.displayName;
+      img.src = placeholder;
+
+      const overlay = document.createElement('div');
+      overlay.className = 'actor-overlay';
+
+      const h3 = document.createElement('h3'); h3.textContent = a.displayName;
+      const p1 = document.createElement('p'); p1.className='meta'; p1.textContent = 'บทบาทเด่น: ' + a.short;
+      const p2 = document.createElement('p'); p2.className='meta'; p2.textContent = 'ปีเกิด: ' + a.birth;
+
+      const row = document.createElement('div'); row.className='row';
+      const btn = document.createElement('a'); btn.className='btn'; btn.textContent='ดูรายละเอียด'; btn.target='_blank'; btn.rel='noopener';
+
+      if (a.wikiDomain && a.wikiTitle){
+        const d = a.wikiDomain === 'th' ? 'th.wikipedia.org' : 'en.wikipedia.org';
+        btn.href = `https://${d}/wiki/${encodeURIComponent(a.wikiTitle)}`;
+      } else {
+        btn.href = '#';
+      }
+
+      row.appendChild(btn);
+      overlay.appendChild(h3); overlay.appendChild(p1); overlay.appendChild(p2); overlay.appendChild(row);
+
+      card.appendChild(img);
+      card.appendChild(overlay);
+      grid.appendChild(card);
+
+      a._imgEl = img;
+    });
+
+    async function loadWikiThumbnails(){
+      for(const a of actors){
+        let done = false;
+        if(a.wikiDomain && a.wikiTitle){
+          const domain = a.wikiDomain === 'th' ? 'th.wikipedia.org' : 'en.wikipedia.org';
+          const api = `https://${domain}/api/rest_v1/page/summary/${encodeURIComponent(a.wikiTitle)}`;
+          try {
+            const res = await fetch(api);
+            if(res.ok){
+              const data = await res.json();
+              if(data.thumbnail?.source){
+                a._imgEl.src = data.thumbnail.source; done = true;
+              }else if(data.originalimage?.source){
+                a._imgEl.src = data.originalimage.source; done = true;
+              }
+            }
+          } catch(e){}
+        }
+        if(!done && a.localImage){
+          a._imgEl.src = a.localImage;
+        }
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', loadWikiThumbnails);
+
+    const searchInput = document.getElementById('searchInput');
+    const roleFilter = document.getElementById('roleFilter');
+
+    function filterActors(){
+      const q = searchInput.value.trim().toLowerCase();
+      const role = roleFilter.value;
+      grid.querySelectorAll('.actor-card').forEach(card=>{
+        const name = card.dataset.name.toLowerCase();
+        const r = card.dataset.role;
+        card.style.display = ( (!q || name.includes(q)) && (role==='all'||r===role) ) ? 'block' : 'none';
+      });
+    }
+    searchInput.addEventListener('input', filterActors);
+    roleFilter.addEventListener('change', filterActors);
+  </script>
+</body>
+</html>

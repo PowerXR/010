@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>YSeriesHub</title>
+<style>
+    body {
+        margin: 0;
+        font-family: 'Segoe UI', 'Noto Sans Thai', sans-serif;
+        background-color: #0b0b0b;
+        color: white;
+    }
+    /* แถบเมนู */
+    .navbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 15px 30px;
+        background-color: rgba(0,0,0,0.85);
+        backdrop-filter: blur(8px);
+        position: sticky;
+        top: 0;
+        z-index: 100;
+    }
+    .logo {
+        font-size: 28px;
+        font-weight: bold;
+        background: linear-gradient(90deg, red, orange, yellow, green, blue, indigo, violet);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+    }
+    .menu {
+        display: flex;
+        gap: 20px;
+    }
+    .menu a {
+        text-decoration: none;
+        color: white;
+        font-weight: 500;
+        transition: 0.3s;
+    }
+    .menu a:hover {
+        color: #ff0000;
+    }
+    .buttons {
+        display: flex;
+        gap: 15px;
+    }
+    .btn {
+        padding: 8px 20px;
+        border-radius: 25px;
+        font-weight: bold;
+        border: none;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+    .btn-app {
+        background: linear-gradient(45deg, #ff0000, #ff0000);
+        color: white;
+    }
+    .btn-premium {
+        background: linear-gradient(45deg, gold, orange);
+        color: black;
+    }
+    .btn:hover {
+        transform: scale(1.05);
+        box-shadow: 0 0 10px rgba(255,255,255,0.3);
+    }
+  /* เนื้อหา */
+    .series-section {
+        padding: 40px 30px;
+    }
+    .section-title {
+        font-size: 24px;
+        margin-bottom: 25px;
+        border-left: 6px solid #f10000;
+        padding-left: 12px;
+    }
+    .series-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        gap: 25px;
+    }
+    .series-card {
+        background-color: #1a1a1a;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 6px 15px rgba(0,0,0,0.6);
+        transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .series-card:hover {
+        transform: scale(1.05);
+        box-shadow: 0 12px 20px rgba(255, 0, 0, 0.5);
+    }
+    .series-card img {
+        width: 100%;
+        height: 220px;
+        object-fit: cover;
+        display: block;
+    }
+    .series-card p {
+        padding: 12px;
+        font-size: 15px;
+        text-align: center;
+        color: #f0f0f0;
+        font-weight: 500;
+    }
+</style>
+</head>
+<body>
+
+<div class="navbar">
+    <div class="logo">YSeriesHub</div>
+    <div class="menu">
+    </div>
+    <div class="buttons">
+   <button class="btn btn-app" onclick="window.open('page_2.html', '_blank')">APP</button>
+    </div>
+</div>
+
+<div class="series-section">
+    <div class="section-title">SERIES</div>
+    <div class="series-grid">
+        <div class="series-card">
+            <a href="https://www.youtube.com/watch?v=jYKryzjRNXg" target="_blank">
+                <img src="E:\010\20.jpg" alt="">
+            </a>
+            <p>คุณหมีปาฏิหาริย์</p>
+        </div>
+        <div class="series-card">
+            <a href="https://www.youtube.com/watch?v=2suXbor3jDA" target="_blank">
+               <img src="E:\010\21.jpg" alt="">
+            </a>
+            <p> Cherry Magic30ยังซิง</p>
+        </div>
+        <div class="series-card">
+            <a href="https://www.youtube.com/watch?v=FPUZIbpL9sw" target="_blank">
+           <img src="E:\010\22.jpg" alt="">
+            </a>
+            <p>Triage ทริอาช</p>
+        </div>
+        <div class="series-card">
+            <a href="https://www.youtube.com/watch?v=go2Del0e9EU" target="_blank">
+                <img src="E:\010\23.jpg" alt="">
+            </a>
+            <p>อายุมั่นขวัญยืน</p>
+        </div>
+        <div class="series-card">
+            <a href="https://www.youtube.com/watch?v=4KZaflc_MAs" target="_blank">
+              <img src="E:\010\24.jpg" alt="">
+            </a>
+            <p>คุณหมอครับผมมารับวิญญาณคนไข้</p>
+        </div>
+              <div class="series-card">
+            <a href="https://www.youtube.com/watch?v=WRm4MC1bw1s" target="_blank">
+                <img src="E:\010\25.jpg" alt="">
+            </a>
+            <p>Meow Ears Up น้องเหมียวในห้องผม</p>
+        </div>
+              <div class="series-card">
+            <a href="https://www.youtube.com/watch?v=7CPVNqlVzf8" target="_blank">
+                <img src="E:\010\26.jpg" alt="">
+            </a>
+            <p>Make a Wish ภารกิจนายเทวดา เดอะซีรีส์</p>
+        </div>
+              <div class="series-card">
+            <a href="https://www.youtube.com/watch?v=dSQ5g4d2DEk" target="_blank">
+                <img src="E:\010\27.jpg" alt="">
+            </a>
+            <p>REVAMP THE UNDEAD STORY</p>
+        </div>
+              <div class="series-card">
+            <a href="https://www.youtube.com/watch?v=K1LVmPmoM18" target="_blank">
+                <img src="E:\010\28.jpg" alt="">
+            </a>
+            <p>แวมไพร์วายแดง</p>
+        </div>
+              <div class="series-card">
+            <a href="https://www.youtube.com/watch?v=EWMuTe6vjEc" target="_blank">
+                <img src="E:\010\29.jpg" alt="">
+            </a>
+            <p>Caged Again The Series</p>
+        </div>
+              <div class="series-card">
+            <a href="https://www.youtube.com/watch?v=4A-IewiE8zs" target="_blank">
+                <img src="E:\010\30.jpg" alt="">
+            </a>
+            <p>THE SIGN ลางสังหรณ์</p>
+        </div>
+              <div class="series-card">
+            <a href="https://www.youtube.com/watch?v=hFcwTBhrPJQ" target="_blank">
+                <img src="E:\010\31.jpg" alt="">
+            </a>
+            <p> My Golden Blood เลือดนายลมหายใจฉัน</p>
+        </div>
+              <div class="series-card">
+            <a href="https://www.youtube.com/watch?v=y8g4KaPpcUw" target="_blank">
+                <img src="E:\010\32.jpg" alt="">
+            </a>
+            <p>Century of Love</p>
+        </div>
+              <div class="series-card">
+            <a href="https://www.youtube.com/watch?v=RqHw-CRB5xo" target="_blank">
+                <img src="E:\010\33.jpg" alt="">
+            </a>
+            <p>I’m The Most Beautiful Count ฉันนี่แหละท่านขุนที่สวยที่สุด </p>
+        </div>
+              <div class="series-card">
+            <a href="https://www.youtube.com/watch?v=sWu3JiMoVTM" target="_blank">
+                <img src="E:\010\34.jpg" alt="">
+            </a>
+            <p>เขมจิราต้องรอด Khemjira The Series</p>
+          </div>
+              <div class="series-card">
+            <a href="https://www.youtube.com/watch?v=MJaF2Q1AW_M" target="_blank">
+                <img src="E:\010\35.jpg" alt="">
+            </a>
+            <p>The Hidden Moon เดือนพราง</p>
+               </div>
+              <div class="series-card">
+            <a href="https://www.youtube.com/watch?v=jnyRKnhjiPc" target="_blank">
+                <img src="E:\010\36.jpg" alt="">
+            </a>
+            <p>คุณชาย </p>
+            </div>
+              <div class="series-card">
+            <a href="https://www.youtube.com/watch?v=irwAFZWiUk8" target="_blank">
+                <img src="E:\010\37.jpg" alt="">
+            </a>
+            <p>On Cloud Nine</p>
+               </div>
+              <div class="series-card">
+            <a href="https://www.youtube.com/watch?v=dHlfjy16A8w" target="_blank">
+                <img src="E:\010\38.jpg" alt="">
+            </a>
+            <p>609 Bedtime Story</p>
+               </div>
+              <div class="series-card">
+            <a href="https://www.youtube.com/watch?v=78Z_ZkmueSI" target="_blank">
+                <img src="E:\010\39.jpg" alt="">
+            </a>
+            <p>Vice Versa รักสลับโลก</p>
+               </div>
+       
+            
+        </div>
+    </div>
+</div>
+
+
+</body>
+</html>
