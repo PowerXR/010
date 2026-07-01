@@ -1,0 +1,391 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>เข้าสู่ระบบ • YSeriesHub</title>
+  <meta name="description" content="" />
+  <style>
+    :root {
+      --bg: #000;
+      --card: #111111cc;
+      --muted: #b3b3b3;
+      --text: #fff;
+      --accent: #e50914;
+      --accent-hover: #f40612;
+      --input: #333;
+      --link: #b3b3b3;
+      --link-hover: #fff;
+      --radius: 14px;
+      --shadow: 0 20px 40px rgba(0, 0, 0, .6);
+    }
+
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+
+    body {
+      margin: 0;
+      font-family: ui-sans-serif, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans Thai", "Noto Sans", "Liberation Sans", sans-serif;
+      color: var(--text);
+      background: 
+        radial-gradient(1200px 600px at 20% -10%, #34141455, transparent 60%),
+        radial-gradient(900px 500px at 90% 10%, #14203455, transparent 60%),
+        linear-gradient(180deg, #0b0b0b, #000);
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+    }
+
+    .wrap { width: 100%; max-width: 440px; }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+    .brand {
+      font-weight: 900;
+      letter-spacing: .5px;
+      font-size: 28px;
+      line-height: 1;
+      color: var(--text);
+    }
+
+    .card {
+      background: var(--card);
+      backdrop-filter: saturate(160%) blur(8px);
+      border: 1px solid #222;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 32px;
+    }
+
+    h1 {
+      margin: 0 0 18px;
+      font-size: 28px;
+      font-weight: 800;
+    }
+
+    .field {
+      display: grid;
+      gap: 6px;
+      margin-bottom: 14px;
+    }
+    label {
+      font-size: 14px;
+      color: #e6e6e6;
+    }
+
+    input[type="text"], input[type="email"], input[type="password"] {
+      width: 100%;
+      padding: 14px;
+      font-size: 16px;
+      color: var(--text);
+      background: var(--input);
+      border: 1px solid #3a3a3a;
+      border-radius: 10px;
+      outline: none;
+      transition: border-color .2s ease, box-shadow .2s ease;
+    }
+    input::placeholder { color: #8a8a8a; }
+    input:focus {
+      border-color: #5a5a5a;
+      box-shadow: 0 0 0 3px #ffffff10;
+    }
+
+    .btn-red {
+      width: 100%;
+      display: inline-block;
+      padding: 12px 18px;
+      font-size: 16px;
+      font-weight: bold;
+      color: white;
+      background-color: var(--accent);
+      border: 1px solid var(--accent);
+      border-radius: 10px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.2s, color 0.2s, border-color 0.2s;
+    }
+    .btn-red:hover {
+      background-color: var(--accent-hover);
+      border-color: var(--accent-hover);
+    }
+
+    .row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin: 14px 0 4px;
+    }
+    .row .left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+    input[type="checkbox"] { accent-color: var(--accent); }
+    
+    .link-btn {
+      background: none;
+      border: none;
+      color: var(--link);
+      font-size: 14px;
+      text-decoration: none;
+      cursor: pointer;
+      padding: 0;
+      font-family: inherit;
+    }
+    .link-btn:hover {
+      color: var(--link-hover);
+      text-decoration: underline;
+    }
+
+    .switch-text {
+      margin-top: 20px;
+      color: var(--muted);
+      font-size: 14px;
+      text-align: center;
+    }
+
+    footer {
+      max-width: 900px;
+      margin: 28px auto 0;
+      color: #a3a3a3;
+    }
+    .foot-wrap {
+      border-top: 1px solid #222;
+      margin-top: 18px;
+      padding-top: 18px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+    .grid a {
+      color: #a3a3a3;
+      text-decoration: none;
+      font-size: 13px;
+    }
+    .grid a:hover {
+      text-decoration: underline;
+      color: #fff;
+    }
+
+    /* ซ่อน Form ที่ไม่ได้ใช้งานเริ่มต้น */
+    .hidden { display: none !important; }
+
+    @media (max-width: 480px) {
+      body { padding: 14px; }
+      .card { padding: 22px; }
+      .grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap" aria-label="ระบบสมาชิก">
+
+    <div class="logo" aria-hidden="true">
+      <div class="brand">YSeriesHub</div>
+    </div>
+
+    <section id="login-card" class="card" role="region" aria-labelledby="login-title">
+      <h1 id="login-title">เข้าสู่ระบบ</h1>
+      <form onsubmit="return handleLogin(event)" novalidate>
+        <div class="field">
+          <label for="login-email">อีเมล</label>
+          <input id="login-email" type="email" placeholder="you@gmail.com" autocomplete="email" required />
+        </div>
+
+        <div class="field">
+          <label for="login-password">รหัสผ่าน</label>
+          <input id="login-password" type="password" placeholder="รหัสผ่านของคุณ" autocomplete="current-password" required />
+        </div>
+
+        <button type="submit" class="btn-red">เข้าสู่ระบบ</button>
+
+        <div class="row">
+          <label class="left"><input type="checkbox" id="remember" /> จดจำฉัน</label>
+          <button type="button" class="link-btn" onclick="showForm('forgot')">ลืมรหัสผ่าน?</button>
+        </div>
+      </form>
+      <div class="switch-text">
+        ยังไม่เป็นสมาชิก? <button type="button" class="link-btn" style="color: var(--text); font-weight: bold;" onclick="showForm('register')">สมัครสมาชิกใหม่</button>
+      </div>
+    </section>
+
+    <section id="register-card" class="card hidden" role="region" aria-labelledby="register-title">
+      <h1 id="register-title">สมัครสมาชิก</h1>
+      <form onsubmit="return handleRegister(event)" novalidate>
+        <div class="field">
+          <label for="reg-username">ชื่อผู้ใช้</label>
+          <input id="reg-username" type="text" placeholder="ชื่อของคุณ" required />
+        </div>
+
+        <div class="field">
+          <label for="reg-email">อีเมล</label>
+          <input id="reg-email" type="email" placeholder="you@gmail.com" required />
+        </div>
+
+        <div class="field">
+          <label for="reg-password">รหัสผ่าน</label>
+          <input id="reg-password" type="password" placeholder="กำหนดรหัสผ่าน (อย่างน้อย 6 ตัวอักษร)" minlength="6" required />
+        </div>
+
+        <button type="submit" class="btn-red">สร้างบัญชีผู้ใช้</button>
+      </form>
+      <div class="switch-text">
+        มีบัญชีอยู่แล้ว? <button type="button" class="link-btn" style="color: var(--text); font-weight: bold;" onclick="showForm('login')">เข้าสู่ระบบที่นี่</button>
+      </div>
+    </section>
+
+    <section id="forgot-card" class="card hidden" role="region" aria-labelledby="forgot-title">
+      <h1 id="forgot-title">ลืมรหัสผ่าน</h1>
+      <form onsubmit="return handleResetPassword(event)" novalidate>
+        <p style="font-size: 14px; color: var(--muted); margin: 0 0 16px; line-height: 1.4;">
+          กรอกอีเมลของคุณเพื่อตั้งรหัสผ่านใหม่ในระบบจำลองทันที
+        </p>
+        <div class="field">
+          <label for="forgot-email">อีเมลที่ใช้สมัคร</label>
+          <input id="forgot-email" type="email" placeholder="you@gmail.com" required />
+        </div>
+
+        <div class="field">
+          <label for="forgot-new-password">รหัสผ่านใหม่</label>
+          <input id="forgot-new-password" type="password" placeholder="รหัสผ่านใหม่ของคุณ" minlength="6" required />
+        </div>
+
+        <button type="submit" class="btn-red">เปลี่ยนรหัสผ่านสำเร็จ</button>
+      </form>
+      <div class="switch-text">
+        <button type="button" class="link-btn" onclick="showForm('login')">ย้อนกลับไปหน้าเข้าสู่ระบบ</button>
+      </div>
+    </section>
+
+    <footer>
+      <div class="foot-wrap">
+        <div class="grid">
+          <a href="page_7.html">คำถามที่พบบ่อย</a>
+          <a href="page_8.html">ศูนย์ช่วยเหลือ</a>
+          <a href="page_9.html">เงื่อนไขการใช้งาน</a>
+          <a href="page_10.html">ความเป็นส่วนตัว</a>
+        </div>
+      </div>
+    </footer>
+  </main>
+
+  <script>
+    // ใช้ LocalStorage เพื่อจำลองฐานข้อมูลสมาชิกให้สามารถ สมัคร/ลืมรหัส/ล็อกอิน ได้จริง
+    if(!localStorage.getItem('users')) {
+      localStorage.setItem('users', JSON.stringify({}));
+    }
+
+    // ฟังก์ชันสลับหน้าจอ ฟอร์มต่างๆ
+    function showForm(formType) {
+      document.getElementById('login-card').classList.add('hidden');
+      document.getElementById('register-card').classList.add('hidden');
+      document.getElementById('forgot-card').classList.add('hidden');
+
+      if(formType === 'login') {
+        document.getElementById('login-card').classList.remove('hidden');
+      } else if(formType === 'register') {
+        document.getElementById('register-card').classList.remove('hidden');
+      } else if(formType === 'forgot') {
+        document.getElementById('forgot-card').classList.remove('hidden');
+      }
+    }
+
+    // ระบบสมัครสมาชิก (จำลอง)
+    function handleRegister(e) {
+      e.preventDefault();
+      const name = document.getElementById('reg-username').value.trim();
+      const email = document.getElementById('reg-email').value.trim().toLowerCase();
+      const pass = document.getElementById('reg-password').value.trim();
+
+      if (!name || !email || !pass) {
+        alert("กรุณากรอกข้อมูลให้ครบถ้วน");
+        return false;
+      }
+      if (pass.length < 6) {
+        alert("รหัสผ่านต้องมีอย่างน้อย 6 ตัวอักษร");
+        return false;
+      }
+
+      let users = JSON.parse(localStorage.getItem('users'));
+      if(users[email]) {
+        alert("อีเมลนี้ถูกใช้สมัครสมาชิกไปแล้ว");
+        return false;
+      }
+
+      // บันทึกข้อมูลลงเครื่องจำลอง
+      users[email] = { name: name, pass: pass };
+      localStorage.setItem('users', JSON.stringify(users));
+
+      alert("สมัครสมาชิกสำเร็จ! กำลังนำคุณไปหน้าเข้าสู่ระบบ");
+      showForm('login');
+      document.getElementById('login-email').value = email;
+      return false;
+    }
+
+    // ระบบเข้าสู่ระบบ (จำลอง)
+    function handleLogin(e) {
+      e.preventDefault();
+      const email = document.getElementById('login-email').value.trim().toLowerCase();
+      const pass = document.getElementById('login-password').value.trim();
+
+      if (!email || !pass) {
+        alert("กรุณากรอกอีเมลและรหัสผ่าน");
+        return false;
+      }
+
+      let users = JSON.parse(localStorage.getItem('users'));
+      
+      // ตรวจสอบกับข้อมูลจำลองในเครื่อง
+      if(users[email] && users[email].pass === pass) {
+        window.location.href = "page_2.html";
+      } else {
+        alert("อีเมลหรือรหัสผ่านไม่ถูกต้อง (หรืออาจยังไม่ได้สมัครสมาชิก)");
+      }
+      return false;
+    }
+
+    // ระบบลืมรหัสผ่านและเปลี่ยนรหัสผ่าน (แก้ไขได้จริงในระบบจำลอง)
+    function handleResetPassword(e) {
+      e.preventDefault();
+      const email = document.getElementById('forgot-email').value.trim().toLowerCase();
+      const newPass = document.getElementById('forgot-new-password').value.trim();
+
+      if (!email || !newPass) {
+        alert("กรุณากรอกข้อมูลให้ครบถ้วน");
+        return false;
+      }
+      if (newPass.length < 6) {
+        alert("รหัสผ่านใหม่ต้องมีอย่างน้อย 6 ตัวอักษร");
+        return false;
+      }
+
+      let users = JSON.parse(localStorage.getItem('users'));
+      
+      if(!users[email]) {
+        alert("ไม่พบอีเมลนี้ในระบบสมัครสมาชิก กรุณาตรวจสอบอีกครั้ง");
+        return false;
+      }
+
+      // อัปเดตรหัสผ่านใหม่ลงเครื่องจำลอง
+      users[email].pass = newPass;
+      localStorage.setItem('users', JSON.stringify(users));
+
+      alert("เปลี่ยนรหัสผ่านสำเร็จแล้ว! คุณสามารถใช้รหัสผ่านใหม่เข้าสู่ระบบได้ทันที");
+      showForm('login');
+      document.getElementById('login-email').value = email;
+      document.getElementById('login-password').value = '';
+      return false;
+    }
+  </script>
+</body>
+</html>

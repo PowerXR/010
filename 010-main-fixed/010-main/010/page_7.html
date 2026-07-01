@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>คำถามที่พบบ่อย (FAQ) • YSeriesHub</title>
+  <meta name="description" content="คำถามที่พบบ่อยสำหรับผู้ใช้งาน YSeriesHub ครอบคลุมบัญชี  การรับชม อุปกรณ์ แอป และการติดต่อทีมงาน" />
+  <style>
+    :root{
+      --bg:#0b0b0f;      
+      --card:#12121a;      
+      --muted:#9aa0aa;     
+      --text:#f7f8fa;      
+      --accent:#e50914;   
+      --ring: #3b82f6;   
+      --ok:#10b981;        
+      --warn:#f59e0b;      
+      --err:#ef4444;     
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans Thai", "Noto Sans", Ubuntu, Cantarell, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji";
+      background: radial-gradient(1200px 800px at 80% -10%, #1b1b29 0%, #0b0b0f 60%); color:var(--text);
+    }
+    .container{ max-width:960px; margin-inline:auto; padding:24px; }
+
+  
+    header{ position:relative; padding:32px 24px 12px; margin-bottom:16px; border-radius:24px; background:linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02)); border:1px solid rgba(255,255,255,0.08); box-shadow: 0 10px 30px rgba(0,0,0,.35); overflow:hidden; }
+    header .brand{ display:flex; align-items:center; gap:14px; }
+    .logo{ width:36px; height:36px; border-radius:9px; background:conic-gradient(from 90deg, #e40303 0 16%, #ff8c00 16% 32%, #ffed00 32% 48%, #008026 48% 64%, #004dff 64% 82%, #750787 82% 100%); box-shadow:inset 0 0 0 3px rgba(0,0,0,.25), 0 8px 18px rgba(0,0,0,.35); }
+    .title{ font-size:clamp(22px, 2.6vw, 34px); font-weight:800; letter-spacing:0.2px; }
+    .subtitle{ color:var(--muted); margin-top:6px; font-size:clamp(13px, 1.7vw, 16px) }
+
+
+    .tools{ display:flex; flex-wrap:wrap; gap:10px; margin-top:16px }
+    .search{ position:relative; flex:1 1 320px }
+    .search input{
+      width:100%; padding:14px 44px 14px 44px; border-radius:14px; border:1px solid rgba(255,255,255,.12); background:rgba(255,255,255,.04); color:var(--text);
+      outline:none; transition: border .2s, box-shadow .2s;
+    }
+    .search input:focus{ border-color:var(--ring); box-shadow:0 0 0 3px rgba(59,130,246,.25) }
+    .search .icon{ position:absolute; left:12px; top:50%; translate:0 -50%; opacity:.75 }
+    .actions{ display:flex; gap:10px }
+    button.btn{
+      padding:12px 14px; border-radius:12px; border:1px solid rgba(255,255,255,.12); background:rgba(255,255,255,.05);
+      color:var(--text); cursor:pointer; font-weight:600; letter-spacing:.2px; transition:transform .04s ease, background .2s, border .2s;
+    }
+    button.btn:hover{ background:rgba(255,255,255,.08) }
+    button.btn:active{ transform:translateY(1px) }
+
+   
+    .faq{ margin-top:18px; }
+    .item{ border:1px solid rgba(255,255,255,.10); background:var(--card); border-radius:16px; overflow:hidden; margin-bottom:12px }
+    .q{ width:100%; text-align:left; background:transparent; border:0; color:var(--text); padding:18px 56px 18px 18px; font-size:16px; font-weight:700; cursor:pointer; position:relative; }
+    .q[aria-expanded="true"]{ background:linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02)); }
+    .q:focus-visible{ outline:3px solid rgba(59,130,246,.5); outline-offset:-2px }
+    .q .chev{ position:absolute; right:14px; top:50%; translate:0 -50%; transition: transform .25s ease; opacity:.85 }
+    .q[aria-expanded="true"] .chev{ transform: rotate(180deg) }
+    .a{ display:grid; grid-template-rows:0fr; transition:grid-template-rows .28s ease; }
+    .a[aria-hidden="false"]{ grid-template-rows:1fr }
+    .a-inner{ overflow:hidden; }
+    .a-inner > div{ padding:0 18px 18px; color:#d7dbe3; line-height:1.7; }
+    .a-inner p{ margin:0 0 10px }
+    .a-inner code{ background:rgba(255,255,255,.08); padding:2px 6px; border-radius:6px }
+    .meta{
+      display:flex; gap:8px; align-items:center; color:var(--muted); font-size:12px; padding:0 18px 14px
+    }
+    .tag{ border:1px solid rgba(255,255,255,.14); padding:3px 8px; border-radius:999px; }
+
+    .foot{ color:var(--muted); font-size:12px; text-align:center; margin:20px 0 0 }
+    .kbd{ font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; background: rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.18); padding:2px 6px; border-radius:6px }
+
+  
+    .anchor{ position:absolute; inset:0; }
+    .q:hover .copy{ opacity:1 }
+    .copy{ position:absolute; right:40px; top:50%; translate:0 -50%; font-size:12px; opacity:0; transition:opacity .2s; color:var(--muted) }
+
+ 
+    @media (prefers-reduced-motion: reduce){
+      .a{ transition:none }
+      .q .chev{ transition:none }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header aria-label="แบนเนอร์ส่วนหัว">
+      <div class="brand" aria-label="แบรนด์ YSeriesHub">
+        <div class="logo" aria-hidden="true"></div>
+        <div>
+          <div class="title">YSeriesHub • คำถามที่พบบ่อย</div>
+          <div class="subtitle">คู่มือสั้น ๆ สำหรับผู้ใช้ใหม่ ค้นหา คัดกรอง และเปิด–ปิดได้ง่าย</div>
+        </div>
+      </div>
+      <div class="tools" role="group" aria-label="เครื่องมือค้นหาและจัดการ FAQ">
+        <div class="search">
+          <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M21 21l-4.35-4.35" stroke="currentColor" stroke-width="1.6"/><circle cx="10.5" cy="10.5" r="7" stroke="currentColor" stroke-width="1.6"/></svg>
+          <input id="search" type="search" placeholder="ค้นหาเช่น สมัครสมาชิก, ซับไทย, แอป, ยกเลิก... (กด / เพื่อโฟกัส)" aria-label="ช่องค้นหา FAQ" />
+        </div>
+        <div class="actions">
+          <button class="btn" id="expandAll" aria-expanded="false">ขยายทั้งหมด</button>
+          <button class="btn" id="collapseAll">ย่อทั้งหมด</button>
+        </div>
+      </div>
+    </header>
+
+    <section class="faq" id="faq" aria-label="รายการคำถามที่พบบ่อย">
+
+      
+     
+      <article class="item" id="q-plans" data-tags="YSeriesHub มีอะไร" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+        <button class="q" aria-expanded="false" aria-controls="a-plans" id="btn-plans">
+         YSeriesHub มีอะไร?
+          <span class="copy" aria-hidden="true">คัดลอกลิงก์</span>
+          <svg class="chev" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
+          <a class="anchor" aria-hidden="true" href="#q-plans" tabindex="-1"></a>
+        </button>
+        <div class="a" id="a-plans" role="region" aria-labelledby="btn-plans" aria-hidden="true" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+          <div class="a-inner"><div>
+            <p>ซีรีส์วาย (Boys’ Love) หลากหลายแนว ทั้งแนวมหาลัย, ย้อนยุคแฟนตาซี, โรแมนติกคอมเมดี้, ดราม่าเข้มข้น</p>
+            <p><strong>เคล็ดลับ:</strong> คอมมูนิตี้สำหรับแฟนวาย  รีวิว, คอมเมนต์, แนะนำซีรีส์ต่อเพื่อน ๆ</p>
+          </div></div>
+          <div class="meta"><span class="tag"> ซีรีส์</span><span class="tag">รับชม</span></div>
+        </div>
+      </article>
+
+     
+      <article class="item" id="q-login" data-tags="ล็อกอิน เข้าสู่ระบบ รหัสผ่าน OTP" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+        <button class="q" aria-expanded="false" aria-controls="a-login" id="btn-login">
+          วิธีเข้าสู่ระบบ?
+          <span class="copy" aria-hidden="true">คัดลอกลิงก์</span>
+          <svg class="chev" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
+          <a class="anchor" aria-hidden="true" href="#q-login" tabindex="-1"></a>
+        </button>
+        <div class="a" id="a-login" role="region" aria-labelledby="btn-login" aria-hidden="true" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+          <div class="a-inner"><div>
+            <p>ผู้ใช้สามารถเข้าสู่ระบบ YSeriesHub ได้ด้วยการสมัครด้วยอีเมลและรหัสผ่าน
+
+หรือเข้าสู่ระบบผ่านบัญชีโซเชียล (เช่น Google หรือ Facebook)
+
+หากลืมรหัสผ่านสามารถกด “ลืมรหัสผ่าน” เพื่อรีเซ็ตได้
+            <p>หากยังไม่ได้ ให้ลองออกจากระบบทุกอุปกรณ์และเข้าสู่ระบบใหม่</p>
+          </div></div>
+          <div class="meta"><span class="tag">ล็อกอิน</span><span class="tag">ความปลอดภัย</span></div>
+        </div>
+      </article>
+
+    
+      <article class="item" id="q-devices" data-tags="อุปกรณ์ " itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+        <button class="q" aria-expanded="false" aria-controls="a-devices" id="btn-devices">
+          YSeriesHub รองรับอุปกรณ์อะไรบ้าง?
+          <span class="copy" aria-hidden="true">คัดลอกลิงก์</span>
+          <svg class="chev" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
+          <a class="anchor" aria-hidden="true" href="#q-devices" tabindex="-1"></a>
+        </button>
+        <div class="a" id="a-devices" role="region" aria-labelledby="btn-devices" aria-hidden="true" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+          <div class="a-inner"><div>
+            <p>คอมพิวเตอร์ผ่านเบราว์เซอร์ล่าสุด, </p>
+            <p>เพื่อคุณภาพสูงสุด แนะนำการเชื่อมต่อผ่าน Wi‑Fi 5 ขึ้นไปหรืออินเทอร์เน็ตบ้านที่เสถียร</p>
+          </div></div>
+          <div class="meta"><span class="tag">อุปกรณ์</span><span class="tag">การรับชม</span></div>
+        </div>
+      </article>
+
+   
+   
+      
+
+     
+      <article class="item" id="q-quality" data-tags="ความคมชัด 4K HD เน็ตช้า บัฟเฟอร์" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+        <button class="q" aria-expanded="false" aria-controls="a-quality" id="btn-quality">
+          ปรับคุณภาพวิดีโอหรือแก้กระตุกอย่างไร?
+          <span class="copy" aria-hidden="true">คัดลอกลิงก์</span>
+          <svg class="chev" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
+          <a class="anchor" aria-hidden="true" href="#q-quality" tabindex="-1"></a>
+        </button>
+        <div class="a" id="a-quality" role="region" aria-labelledby="btn-quality" aria-hidden="true" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+          <div class="a-inner"><div>
+            <p>ไปที่การตั้งค่าคุณภาพในเครื่องเล่น และเลือกอัตโนมัติ/ความละเอียดคงที่ ลองรีสตาร์ตเราเตอร์ ปิดแอปพื้นหลัง หรือสลับเครือข่ายเพื่อความเสถียร</p>
+          </div></div>
+          <div class="meta"><span class="tag">คุณภาพ</span><span class="tag">บัฟเฟอร์</span></div>
+        </div>
+      </article>
+
+    
+
+   
+      <article class="item" id="q-privacy" data-tags="ความเป็นส่วนตัว ข้อมูลส่วนบุคคล คุกกี้" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+        <button class="q" aria-expanded="false" aria-controls="a-privacy" id="btn-privacy">
+          YSeriesHub ใช้ข้อมูลส่วนบุคคลอย่างไร?
+          <span class="copy" aria-hidden="true">คัดลอกลิงก์</span>
+          <svg class="chev" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
+          <a class="anchor" aria-hidden="true" href="#q-privacy" tabindex="-1"></a>
+        </button>
+        <div class="a" id="a-privacy" role="region" aria-labelledby="btn-privacy" aria-hidden="true" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+          <div class="a-inner"><div>
+            <p>เราจัดเก็บข้อมูลที่จำเป็นต่อการให้บริการและปรับปรุงประสบการณ์ของผู้ใช้ คุณสามารถจัดการค่าความเป็นส่วนตัวและคุกกี้ได้จากหน้า <em>การตั้งค่า &gt; ความเป็นส่วนตัว</em></p>
+          </div></div>
+          <div class="meta"><span class="tag">ความเป็นส่วนตัว</span><span class="tag">คุกกี้</span></div>
+        </div>
+      </article>
+
+    
+      <article class="item" id="q-request" data-tags="ขอซีรีส์ เสนอชื่อเรื่อง ลิขสิทธิ์ ขอเพิ่มตอน" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+        <button class="q" aria-expanded="false" aria-controls="a-request" id="btn-request">
+          อยากให้เพิ่มซีรีส์เรื่องโปรด ต้องทำอย่างไร?
+          <span class="copy" aria-hidden="true">คัดลอกลิงก์</span>
+          <svg class="chev" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
+          <a class="anchor" aria-hidden="true" href="#q-request" tabindex="-1"></a>
+        </button>
+        <div class="a" id="a-request" role="region" aria-labelledby="btn-request" aria-hidden="true" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+          <div class="a-inner"><div>
+            <p>ส่งคำขอผ่าเบอร์ xxx xxx xxxx <em>เสนอรายการ</em> ระบุชื่อเรื่อง ปีที่ออกอากาศ และแพลตฟอร์มต้นทาง ทีมงานจะพิจารณาตามลิขสิทธิ์และความต้องการของผู้ชม</p>
+          </div></div>
+          <div class="meta"><span class="tag">คอนเทนต์</span><span class="tag">คำขอ</span></div>
+        </div>
+      </article>
+
+    
+     
+
+
+      
+
+    
+      <article class="item" id="q-data" data-tags="อินเทอร์เน็ต ดาต้า ปริมาณเน็ต เน็ตรั่ว" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+        <button class="q" aria-expanded="false" aria-controls="a-data" id="btn-data">
+          สตรีมใช้เน็ตเท่าไรต่อชั่วโมง?
+          <span class="copy" aria-hidden="true">คัดลอกลิงก์</span>
+          <svg class="chev" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
+          <a class="anchor" aria-hidden="true" href="#q-data" tabindex="-1"></a>
+        </button>
+        <div class="a" id="a-data" role="region" aria-labelledby="btn-data" aria-hidden="true" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+          <div class="a-inner"><div>
+            <p>ขึ้นอยู่กับความคมชัด: SD ~1GB/ชม., HD ~3GB/ชม., 4K อาจมากกว่า 7GB/ชม. สามารถจำกัดคุณภาพเพื่อประหยัดดาต้าได้</p>
+          </div></div>
+          <div class="meta"><span class="tag">ดาต้า</span><span class="tag">เครือข่ายมือถือ</span></div>
+        </div>
+      </article>
+
+   
+      <article class="item" id="q-support" data-tags="ติดต่อ ซัพพอร์ต แชท อีเมล" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+        <button class="q" aria-expanded="false" aria-controls="a-support" id="btn-support">
+          ติดต่อทีมงาน YSeriesHub ได้อย่างไร?
+          <span class="copy" aria-hidden="true">คัดลอกลิงก์</span>
+          <svg class="chev" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
+          <a class="anchor" aria-hidden="true" href="#q-support" tabindex="-1"></a>
+        </button>
+        <div class="a" id="a-support" role="region" aria-labelledby="btn-support" aria-hidden="true" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+          <div class="a-inner"><div>
+            <p>ติดต่อผ่าน <em>เบอร์ xxx xxx xxxx</em>  
+          </div></div>
+          <div class="meta"><span class="tag">สนับสนุน</span><span class="tag">ติดต่อ</span></div>
+        </div>
+      </article>
+
+    </section>
+
+    <p class="foot">กดปุ่ม <span class="kbd">/</span> เพื่อโฟกัสค้นหา • ใช้ <span class="kbd">Enter</span> เปิด/ปิดหัวข้อที่โฟกัส • เข้าถึงได้ด้วยคีย์บอร์ดเต็มรูปแบบ</p>
+  </div>
+
+ 
+  <script type="application/ld+json">
+  
+  </script>
+
+  <script>
+ 
+    const items = [...document.querySelectorAll('.item')];
+
+    function toggle(button, panel){
+      const expanded = button.getAttribute('aria-expanded') === 'true';
+      button.setAttribute('aria-expanded', String(!expanded));
+      panel.setAttribute('aria-hidden', String(expanded));
+    }
+
+
+    items.forEach(it => {
+      const btn = it.querySelector('.q');
+      const panel = it.querySelector('.a');
+
+      btn.addEventListener('click', () => toggle(btn, panel));
+
+   
+      btn.addEventListener('keydown', (e) => {
+        if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); toggle(btn, panel); }
+      });
+
+ 
+      btn.addEventListener('pointerup', (e) => {
+        const target = e.target.closest('.copy');
+        if(target){
+          e.preventDefault();
+          const url = location.origin + location.pathname + it.id;
+          navigator.clipboard.writeText('#' + it.id).catch(()=>{});
+          target.textContent = 'คัดลอกแล้ว!';
+          setTimeout(()=> target.textContent = 'คัดลอกลิงก์', 1200);
+        }
+      });
+    });
+
+    const expandAllBtn = document.getElementById('expandAll');
+    const collapseAllBtn = document.getElementById('collapseAll');
+
+    expandAllBtn.addEventListener('click', () => {
+      const wantExpand = expandAllBtn.getAttribute('aria-expanded') !== 'true';
+      expandAllBtn.setAttribute('aria-expanded', 'true');
+      items.forEach(it => {
+        it.querySelector('.q').setAttribute('aria-expanded','true');
+        it.querySelector('.a').setAttribute('aria-hidden','false');
+      });
+    });
+
+    collapseAllBtn.addEventListener('click', () => {
+      expandAllBtn.setAttribute('aria-expanded', 'false');
+      items.forEach(it => {
+        it.querySelector('.q').setAttribute('aria-expanded','false');
+        it.querySelector('.a').setAttribute('aria-hidden','true');
+      });
+    });
+
+
+    const search = document.getElementById('search');
+    const normalize = s => (s||'').toString().toLowerCase().normalize('NFKD');
+
+    function filter(q){
+      const term = normalize(q);
+      let firstVisible = null;
+      items.forEach(it => {
+        const text = normalize(it.innerText + ' ' + it.dataset.tags);
+        const hit = !term || text.includes(term);
+        it.style.display = hit ? '' : 'none';
+        if(hit && !firstVisible){ firstVisible = it.querySelector('.q'); }
+      });
+      return firstVisible;
+    }
+
+    search.addEventListener('input', (e)=>{
+      filter(e.target.value);
+    });
+
+
+    window.addEventListener('keydown', (e)=>{
+      if(e.key === '/' && document.activeElement !== search){
+        e.preventDefault();
+        search.focus();
+      }
+    });
+
+    function openFromHash(){
+      const hash = location.hash;
+      if(!hash) return;
+      const it = document.querySelector(hash);
+      if(!it) return;
+      const btn = it.querySelector('.q');
+      const panel = it.querySelector('.a');
+      btn.setAttribute('aria-expanded','true');
+      panel.setAttribute('aria-hidden','false');
+      btn.scrollIntoView({behavior:'smooth', block:'start'});
+    }
+    window.addEventListener('hashchange', openFromHash);
+    openFromHash();
+
+    (function openFirst(){
+      const first = items[0];
+      if(!first) return;
+      first.querySelector('.q').setAttribute('aria-expanded','true');
+      first.querySelector('.a').setAttribute('aria-hidden','false');
+    })();
+  </script>
+</body>
+</html>
