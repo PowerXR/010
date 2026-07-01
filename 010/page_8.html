@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>YSeriesHub • ศูนย์ช่วยเหลือ</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background: linear-gradient(to bottom, #fafafa, #ffffff);
+      color: #222;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 30px;
+      border-bottom: 1px solid #eee;
+      background: #fff;
+      position: sticky;
+      top: 0;
+    }
+
+    header .logo {
+      font-size: 20px;
+      font-weight: bold;
+      color: #000000;
+    }
+
+    header nav a {
+      margin-left: 15px;
+      text-decoration: none;
+      padding: 8px 16px;
+      border-radius: 6px;
+      font-size: 14px;
+    }
+
+    nav .join {
+      background: #fff;
+      border: 1px solid #ccc;
+      color: #333;
+    }
+
+    nav .login {
+      background: #000000;
+      color: #fff;
+    }
+
+    .notice {
+      background: #f4f4f4;
+      padding: 12px 30px;
+      font-size: 14px;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .notice a {
+      color: #000000;
+      text-decoration: none;
+    }
+
+    .hero {
+      text-align: center;
+      padding: 60px 20px;
+    }
+
+    .hero h1 {
+      font-size: 28px;
+      margin-bottom: 20px;
+    }
+
+    .search-box {
+      display: inline-flex;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      overflow: hidden;
+      width: 100%;
+      max-width: 500px;
+    }
+
+    .search-box input {
+      border: none;
+      padding: 12px;
+      flex: 1;
+      font-size: 16px;
+    }
+
+    .search-box button {
+      background: #000000;
+      color: #fff;
+      border: none;
+      padding: 0 20px;
+      cursor: pointer;
+    }
+
+    .popular {
+      margin-top: 15px;
+      font-size: 14px;
+    }
+
+    .popular a {
+      color: #000000;
+      text-decoration: none;
+      margin: 0 5px;
+    }
+
+    .topics {
+      padding: 40px 20px;
+      max-width: 1000px;
+      margin: auto;
+    }
+
+    .topics h2 {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 20px;
+    }
+
+    .topic-card {
+      padding: 20px;
+      border: 1px solid #ddd;
+      border-radius: 12px;
+      background: #fff;
+      transition: all 0.2s;
+      cursor: pointer;
+    }
+
+    .topic-card:hover {
+      border-color: #e509b2;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+    }
+
+    .topic-card h3 {
+      margin: 0 0 10px;
+      font-size: 16px;
+    }
+
+    .topic-card p {
+      font-size: 14px;
+      color: #555;
+    }
+
+    footer {
+      margin-top: 50px;
+      padding: 20px;
+      text-align: center;
+      font-size: 14px;
+      color: #777;
+      border-top: 1px solid #eee;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">YSeriesHub Help</div>
+    <nav>
+  </header>
+
+  <div class="notice">
+    เวลารอการสนับสนุนทางแชทอาจนานกว่าปกติ ขอบคุณที่เข้าใจ 
+    | <a href="#">ติดต่อเรา</a>
+  </div>
+
+  <section class="hero">
+    <h1>เราสามารถช่วยอะไรคุณได้บ้าง?</h1>
+    <div class="search-box">
+      <input type="text" placeholder="พิมพ์คำถาม หัวข้อ หรือปัญหา">
+      <button>ค้นหา</button>
+    </div>
+    <div class="popular">
+      หัวข้อยอดนิยม: 
+      <a href="page_7.html">วิธีสมัคร YSeriesHub</a> 
+      <a href="page_7.html">วิธีเข้าสู่ระบบ</a> 
+    </div>
+  </section>
+
+  <section class="topics">
+    <h2>สำรวจหัวข้อ</h2>
+    <div class="grid">
+      <div class="topic-card">
+        <h3>การสมัครใช้งาน</h3>
+        <p>ขั้นตอนการสมัครและสร้างบัญชีใหม่</p>
+      </div>
+      <div class="topic-card">
+        <h3>การเข้าสู่ระบบ</h3>
+        <p>ช่วยเหลือเมื่อเข้าสู่ระบบไม่ได้หรือลืมรหัสผ่าน</p>
+      </div>
+    
+      <div class="topic-card">
+        <h3>ความปลอดภัย</h3>
+        <p>ตั้งค่าความปลอดภัยและป้องกันบัญชีถูกแฮก</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+  YSeriesHub — ศูนย์ช่วยเหลือ  
+  </footer>
+</body>
+</html>

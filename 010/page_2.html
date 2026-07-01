@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>YSeriesHub — ซีรีส์วายสุดฟิน</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;500;700;900&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      color-scheme: dark;
+      --bg: #000;
+      --panel: #0b0b0b;
+      --panel-2: #111;
+      --text: #fff;
+      --muted: #b3b3b3;
+      --accent: #e50914; 
+      --accent-2:#b20710;
+      --radius: 12px;
+      --gap: 20px;
+      --shadow: 0 10px 30px rgba(0,0,0,.45);
+      --star-color: #ffd700;
+    }
+
+    *{box-sizing: border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: "Noto Sans Thai", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+      line-height: 1.5;
+    }
+    a{color:inherit;text-decoration:none}
+
+    header{
+      position: fixed;
+      top:0; left:0; right:0;
+      height: 72px;
+      display:flex; align-items:center; justify-content:space-between;
+      padding: 0 clamp(16px, 4vw, 48px);
+      z-index: 50;
+      background: linear-gradient(180deg, rgba(0,0,0,.65), rgba(0,0,0,.25) 60%, rgba(0,0,0,0));
+      backdrop-filter: saturate(140%) blur(6px);
+    }
+    .brand{
+      display:flex; align-items:center; gap:12px;
+      font-weight: 900; letter-spacing:.3px;
+      font-size: clamp(18px, 3vw, 28px);
+    }
+    .brand .dot{
+      width: 28px; height: 28px; border-radius: 8px;
+      background: var(--accent);
+      box-shadow: 0 6px 20px rgba(229,9,20,.55), inset 0 0 24px rgba(255,255,255,.12);
+    }
+    .nav-actions{display:flex; align-items:center; gap:12px}
+    .btn{
+      display:inline-flex; align-items:center; justify-content:center; gap:8px;
+      height: 40px; padding: 0 14px; border-radius: 10px; border:1px solid transparent;
+      background: #222; color:#fff; font-weight:700; cursor:pointer;
+      transition: .2s ease; box-shadow: none;
+    }
+    .btn:hover{background:#2b2b2b}
+    .btn.primary{
+      background: var(--accent); border-color: #0000;
+      box-shadow: 0 6px 20px rgba(229,9,20,.35);
+    }
+    .btn.primary:hover{background: var(--accent-2)}
+
+    .hero{
+      position: relative;
+      min-height: 92vh;
+      display:grid; place-items:center;
+      text-align:center;
+      padding: 0 16px;
+      background:
+        linear-gradient(180deg, rgba(0,0,0,.75) 0%, rgba(0,0,0,.25) 40%, rgba(0,0,0,.85) 100%),
+        url('https://assets.nflxext.com/ffe/siteui/vlv3/0f5c3c94-9d1e-4fcb-9d9c-69f8d3d0f2a5/2df228e5-d0c3-4a44-bc84-4c1b7a0e24b8/TH-th-20230821-popsignuptwoweeks-perspective_alpha_website_large.jpg')
+        center/cover no-repeat;
+    }
+    .hero-inner{max-width: 980px; margin: 14vh auto 0; padding: 0 12px; width: 100%;}
+    .hero h1{
+      font-size: clamp(28px, 4.5vw, 48px);
+      font-weight: 900; line-height:1.15; margin: 0;
+      text-shadow: 0 6px 30px rgba(0,0,0,.55);
+    }
+    .hero h2{
+      font-size: clamp(16px, 2.2vw, 22px);
+      font-weight: 500; margin: 12px 0 24px; color:#eee;
+    }
+
+    .search{
+      display:flex; gap:10px; flex-wrap:wrap; justify-content:center
+    }
+    .input-wrap{
+      display:flex; align-items:center; gap:10px;
+      background: rgba(0,0,0,.55);
+      border:1px solid #333; border-radius: 12px; padding: 10px 14px;
+      width: min(560px, 90vw);
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,.04);
+    }
+    .input-wrap input{
+      flex:1; min-width: 160px;
+      background: transparent; border:0; outline:0; color:#fff;
+      font-size: 16px;
+    }
+    .input-wrap svg{flex:0 0 20px; opacity:.8}
+    .search .btn{
+      height: 48px; padding: 0 18px; border-radius: 12px;
+      font-size: 16px;
+    }
+
+    /* ตกแต่งโซนแสดงผลการค้นหาทันที (Live Search Results) */
+    .live-search-container {
+      width: min(720px, 95vw);
+      margin: 20px auto 0;
+      background: rgba(11, 11, 11, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(12px);
+      border-radius: var(--radius);
+      padding: 16px;
+      box-shadow: var(--shadow);
+      display: none; /* ซ่อนไว้เริ่มต้น จะแสดงเมื่อพิมพ์ */
+      text-align: left;
+    }
+    .live-search-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--accent);
+      margin-bottom: 12px;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+    .live-search-rail {
+      display: flex;
+      gap: 14px;
+      overflow-x: auto;
+      padding-bottom: 6px;
+      scroll-snap-type: x mandatory;
+      scrollbar-width: thin;
+    }
+    .live-search-rail::-webkit-scrollbar {
+      height: 6px;
+    }
+    .live-search-rail::-webkit-scrollbar-thumb {
+      background: #333;
+      border-radius: 10px;
+    }
+    .no-result-text {
+      color: var(--muted);
+      font-size: 14px;
+      text-align: center;
+      padding: 10px 0;
+      width: 100%;
+    }
+
+    .section{
+      padding: clamp(28px, 5vw, 56px) clamp(16px, 4vw, 48px);
+      max-width: 1200px; margin: 0 auto;
+    }
+    .section h2{
+      font-size: clamp(18px, 3vw, 26px);
+      margin: 0 0 14px; font-weight: 800;
+    }
+    .muted{color: var(--muted); font-size: 14px}
+
+    .carousel{
+      position: relative; margin-top: 12px;
+    }
+    .rail{
+      display:flex; gap: var(--gap);
+      overflow-x: auto; padding: 8px 4px 12px;
+      scroll-snap-type: x mandatory;
+      scroll-behavior: smooth;
+      scrollbar-width: none;
+      mask-image: linear-gradient(to right, rgba(0,0,0,0), #000 6%, #000 94%, rgba(0,0,0,0));
+      -webkit-mask-image: linear-gradient(to right, rgba(0,0,0,0), #000 6%, #000 94%, rgba(0,0,0,0));
+    }
+    .rail::-webkit-scrollbar{display:none}
+
+    .card{
+      flex: 0 0 auto; width: clamp(140px, 18vw, 220px);
+      scroll-snap-align: start;
+      position: relative;
+    }
+    .poster{
+      position:relative; border-radius: 12px; overflow:hidden;
+      background: #141414; height: clamp(210px, 26vw, 320px);
+      box-shadow: var(--shadow); transform: translateZ(0);
+      transition: transform .20s ease, filter .15s ease, box-shadow .15s ease;
+      cursor:pointer;
+      display: block;
+    }
+    .poster img{
+      width:100%; height:100%; object-fit:cover; display:block;
+    }
+    .poster::after{
+      content:"";
+      position:absolute; inset:0;
+      background: linear-gradient(180deg, rgba(0,0,0,0) 60%, rgba(0,0,0,.55) 100%);
+      pointer-events:none;
+    }
+    .poster:hover{transform: translateY(-4px) scale(1.02)}
+    .poster:active{
+      animation: pressBounce .5s ease;
+      filter: brightness(.6);
+      box-shadow: 0 5px 15px rgba(0,0,0,.8) inset;
+    }
+    .meta{
+      font-size: 14px; margin-top: 8px; text-align:center; color:#e8e8e8;
+    }
+
+    .fav-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      z-index: 10;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: rgba(0, 0, 0, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      display: grid;
+      place-items: center;
+      cursor: pointer;
+      color: #fff;
+      transition: transform 0.2s ease, background 0.2s ease, color 0.2s ease;
+    }
+    .fav-btn:hover {
+      transform: scale(1.1);
+      background: rgba(0, 0, 0, 0.8);
+    }
+    .fav-btn.active {
+      color: var(--star-color);
+    }
+
+    @keyframes pressBounce{
+      0%{transform:scale(1)}
+      40%{transform:scale(.86)}
+      60%{transform:scale(1.06)}
+      80%{transform:scale(.98)}
+      100%{transform:scale(1)}
+    }
+
+    .chev{
+      position:absolute; top: 40%;
+      transform: translateY(-50%);
+      width: 44px; height: 44px; border-radius: 10px;
+      display:grid; place-items:center;
+      background: rgba(0,0,0,.55);
+      border:1px solid rgba(255,255,255,.08);
+      color:#fff; cursor:pointer; z-index: 1;
+      transition: .2s ease;
+    }
+    .chev:hover{background: rgba(0,0,0,.85)}
+    .chev.left{left:-6px}
+    .chev.right{right:-6px}
+
+    .features{
+      display:grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 18px; margin-top: 10px;
+    }
+    .feature{
+      position:relative; padding: 18px 18px 56px;
+      border-radius: var(--radius);
+      background: linear-gradient(180deg, #0f0f1f 0%, #1a1a2e 100%);
+      border: 1px solid rgba(255,255,255,.06);
+      transition: transform .18s ease, background .18s ease;
+      box-shadow: var(--shadow);
+      color:#fff; text-decoration:none;
+      min-height: 168px;
+    }
+    .feature:hover{
+      transform: translateY(-4px);
+      background: linear-gradient(180deg, #1a1a2e 0%, #0f0f1f 100%);
+    }
+    .feature h3{margin:0 0 8px; font-size: 18px}
+    .feature p{margin:0; color:#cfcfcf; font-size: 14px}
+    
+    .world-box{
+      grid-column:1 / -1; 
+      min-height:140px;   
+      padding:18px;
+    }
+    .world-box h3{
+      font-size:22px;
+    }
+    .world-box p{
+      font-size:14px;
+      line-height:1.6;
+    }
+
+    .chip{
+      position:absolute; right: 14px; bottom: 14px;
+      padding: 6px 10px; border-radius: 999px; font-weight: 700;
+      background: rgba(229,9,20,.12); border:1px solid rgba(229,9,20,.35);
+      color:#fff; font-size:12px; letter-spacing:.3px;
+    }
+
+    .faq{
+      background: #0b0b0b; border-radius: var(--radius);
+      border: 1px solid #222; padding: 10px; margin-top: 8px;
+      box-shadow: var(--shadow);
+    }
+    details{
+      background:#151515; border-radius: 10px; margin: 10px 0; overflow:hidden;
+      border:1px solid #242424;
+    }
+    summary{
+      list-style:none; cursor:pointer; padding: 18px 18px;
+      font-size: 16px; font-weight:700; position:relative;
+    }
+    summary::-webkit-details-marker{display:none}
+    details[open] summary{background:#1d1d1d}
+    .content{padding: 0 18px 18px; color:#ddd}
+
+    footer{
+      border-top: 1px solid #222; color: var(--muted);
+      padding: 28px clamp(16px, 4vw, 48px) 48px;
+      max-width: 1200px; margin: 0 auto;
+      font-size: 14px;
+    }
+
+    @media (max-width: 600px){
+      header{height:64px}
+      .nav-actions .btn{height:36px; padding:0 12px}
+      .chev{display:none} 
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="brand">
+      <span class="" aria-hidden="true"></span>
+      YSeriesHub
+    </div>
+    <nav class="nav-actions" aria-label="เมนูด้านบน">
+      <button class="btn" type="button" id="lang-toggle-btn" aria-label="เปลี่ยนภาษา">ภาษาไทย</button>
+      <a class="btn primary" href="page_1.html" role="button" id="login-nav-btn">เข้าสู่ระบบ</a>
+    </nav>
+  </header>
+
+  <section class="hero" role="banner" aria-label="หน้าแนะนำ">
+    <div class="hero-inner">
+      <h1>ซีรีส์วายสุดฟิน <br>และความสนุกอีกมากมายให้คุณอินได้ทุกวัน</h1>
+      <h2>แนะนำซีรีส์สำหรับคุณ</h2>
+
+      <form class="search" onsubmit="event.preventDefault();">
+        <div class="input-wrap">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M21 21l-4.3-4.3M10.5 18a7.5 7.5 0 1 1 0-15 7.5 7.5 0 0 1 0 15Z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+          <input id="q" type="search" placeholder="พิมพ์ชื่อเรื่องที่คุณสนใจ…" aria-label="ค้นหาเรื่องที่สนใจ" oninput="liveSearch()">
+        </div>
+        <button class="btn primary" type="submit">ค้นหา</button>
+      </form>
+      <p class="muted" style="margin-top:8px" id="search-suggestion">ลองเช่น: เขมจิราต้องรอด, Moonlight Chicken, Last Twilight</p>
+
+      <div class="live-search-container" id="liveSearchContainer">
+        <div class="live-search-title" id="liveSearchTitle">ผลการค้นหา</div>
+        <div class="live-search-rail" id="liveSearchRail">
+          </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="popular">
+    <h2 id="popular">ยอดนิยม</h2>
+    <div class="carousel">
+      <button class="chev left" aria-label="เลื่อนซ้าย" data-dir="-1">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+          <path d="M15 6l-6 6 6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+      
+      <div class="rail" id="rail">
+        <article class="card">
+          <button class="fav-btn" aria-label="เพิ่มในรายการโปรด" onclick="toggleFavorite(this)">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+          </button>
+          <a class="poster" href="https://www.youtube.com/watch?v=PV7rg5Pl-7Q" target="_blank" rel="noopener">
+            <img src="E:/010/1.jpg" alt="เขมจิราต้องรอด">
+          </a>
+          <div class="meta">1. เขมจิราต้องรอด</div>
+        </article>
+
+        <article class="card">
+          <button class="fav-btn" aria-label="เพิ่มในรายการโปรด" onclick="toggleFavorite(this)">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+          </button>
+          <a class="poster" href="https://www.youtube.com/watch?v=zmsN3WVXqrU" target="_blank" rel="noopener">
+            <img src="E:/010/2.jpg" alt="ซองแดงแต่งผี">
+          </a>
+          <div class="meta">2. ซองแดงแต่งผี</div>
+        </article>
+
+        <article class="card">
+          <button class="fav-btn" aria-label="เพิ่มในรายการโปรด" onclick="toggleFavorite(this)">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+          </button>
+          <a class="poster" href="https://www.youtube.com/watch?v=ug1kDpXvzg8" target="_blank" rel="noopener">
+            <img src="E:/010/3.jpg" alt="Moonlight Chicken">
+          </a>
+          <div class="meta">3. Moonlight Chicken</div>
+        </article>
+
+        <article class="card">
+          <button class="fav-btn" aria-label="เพิ่มในรายการโปรด" onclick="toggleFavorite(this)">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+          </button>
+          <a class="poster" href="https://www.youtube.com/watch?v=KBouUW8tCgY" target="_blank" rel="noopener">
+            <img src="E:/010/4.jpg" alt="หอมกลิ่นความรัก">
+          </a>
+          <div class="meta">4. หอมกลิ่นความรัก</div>
+        </article>
+
+        <article class="card">
+          <button class="fav-btn" aria-label="เพิ่มในรายการโปรด" onclick="toggleFavorite(this)">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+          </button>
+          <a class="poster" href="https://www.youtube.com/watch?v=sZkY7PO8bo8" target="_blank" rel="noopener">
+            <img src="E:/010/5.jpg" alt="บทกวีของปีแสง">
+          </a>
+          <div class="meta">5. บทกวีของปีแสง</div>
+        </article>
+
+        <article class="card">
+          <button class="fav-btn" aria-label="เพิ่มในรายการโปรด" onclick="toggleFavorite(this)">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+          </button>
+          <a class="poster" href="https://www.youtube.com/watch?v=Xq6_kW4kk9M" target="_blank" rel="noopener">
+            <img src="E:/010/6.jpg" alt="Only Friends เพื่อนต้องห้าม">
+          </a>
+          <div class="meta">6. Only Friends เพื่อนต้องห้าม</div>
+        </article>
+
+        <article class="card">
+          <button class="fav-btn" aria-label="เพิ่มในรายการโปรด" onclick="toggleFavorite(this)">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+          </button>
+          <a class="poster" href="https://www.youtube.com/watch?v=f7o-8XQtxKQ" target="_blank" rel="noopener">
+            <img src="E:/010/7.jpeg" alt="Last Twilight ภาพนายไม่เคยลืม">
+          </a>
+          <div class="meta">7. Last Twilight ภาพนายไม่เคยลืม</div>
+        </article>
+
+        <article class="card">
+          <button class="fav-btn" aria-label="เพิ่มในรายการโปรด" onclick="toggleFavorite(this)">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+          </button>
+          <a class="poster" href="https://www.youtube.com/watch?v=r6IGVbloDHw" target="_blank" rel="noopener">
+            <img src="E:/010/9.jpg" alt="SHADOW เงา / ล่า / ตาย">
+          </a>
+          <div class="meta">8. SHADOW เงา / ล่า / ตาย</div>
+        </article>
+
+        <article class="card">
+          <button class="fav-btn" aria-label="เพิ่มในรายการโปรด" onclick="toggleFavorite(this)">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+          </button>
+          <a class="poster" href="https://www.youtube.com/watch?v=uTF47OsdZOU" target="_blank" rel="noopener">
+            <img src="E:/010/10.jpg" alt="ภพเธอ Love Upon a Time Series">
+          </a>
+          <div class="meta">9. ภพเธอ Love Upon a Time Series</div>
+        </article>
+
+        <article class="card">
+          <button class="fav-btn" aria-label="เพิ่มในรายการโปรด" onclick="toggleFavorite(this)">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+          </button>
+          <a class="poster" href="https://www.youtube.com/watch?v=5wUsrm8lZcI" target="_blank" rel="noopener">
+            <img src="E:/010/12.jpg" alt="ข้ามฟ้าเคียงเธอ The Next Prince Series">
+          </a>
+          <div class="meta">10. ข้ามฟ้าเคียงเธอ The Next Prince Series</div>
+        </article>
+
+        <article class="card">
+          <button class="fav-btn" aria-label="เพิ่มในรายการโปรด" onclick="toggleFavorite(this)">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+          </button>
+          <a class="poster" href="https://www.youtube.com/watch?v=Aupbsh7eK3k" target="_blank" rel="noopener">
+            <img src="E:/010/11.jpg" alt="แฟนผมเป็นประธานนักเรียน My School President">
+          </a>
+          <div class="meta">11. แฟนผมเป็นประธานนักเรียน My School President</div>
+        </article>
+
+        <article class="card">
+          <button class="fav-btn" aria-label="เพิ่มในรายการโปรด" onclick="toggleFavorite(this)">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+          </button>
+          <a class="poster" href="https://www.youtube.com/watch?v=gA_bK0K_Eis" target="_blank" rel="noopener">
+            <img src="E:/010/13.jpg" alt="เพราะเราคู่กัน 2gether The Series">
+          </a>
+          <div class="meta">12. เพราะเราคู่กัน 2gether The Series</div>
+        </article>
+
+        <article class="card">
+          <button class="fav-btn" aria-label="เพิ่มในรายการโปรด" onclick="toggleFavorite(this)">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+          </button>
+          <a class="poster" href="https://www.youtube.com/watch?v=vVCHZorEw9w" target="_blank" rel="noopener">
+            <img src="E:/010/14.jpg" alt="นิทานพันดาว 1000stars">
+          </a>
+          <div class="meta">13. นิทานพันดาว 1000stars</div>
+        </article>
+
+        <article class="card">
+          <button class="fav-btn" aria-label="เพิ่มในรายการโปรด" onclick="toggleFavorite(this)">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+          </button>
+          <a class="poster" href="https://www.youtube.com/watch?v=QZ0D3M9KzFs" target="_blank" rel="noopener">
+            <img src="E:/010/15.jpg" alt="แค่เพื่อนครับเพื่อน Bad Buddy Series">
+          </a>
+          <div class="meta">14. แค่เพื่อนครับเพื่อน Bad Buddy Series</div>
+        </article>
+
+        <article class="card">
+          <button class="fav-btn" aria-label="เพิ่มในรายการโปรด" onclick="toggleFavorite(this)">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+          </button>
+          <a class="poster" href="https://www.youtube.com/watch?v=7g2r7hNOfL8" target="_blank" rel="noopener">
+            <img src="E:/010/16.jpg" alt="แปลรักฉันด้วยใจเธอ I Told Sunset About You">
+          </a>
+          <div class="meta">15. แปลรักฉันด้วยใจเธอ I Told Sunset About You</div>
+        </article>
+      </div>
+
+      <button class="chev right" aria-label="เลื่อนขวา" data-dir="1">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+          <path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="recs">
+    <h2 id="recs">ซีรีส์ที่แนะนำ</h2>
+    <div class="features">
+      <a href="page_3.html" class="feature">
+        <h3 class="feat-title">วายย้อนยุคแฟนตาซี</h3>
+        <p class="feat-desc">การต่อสู้ชิงบัลลังก์ องครักษ์ผู้ภักดี คำพยากรณ์โบราณ เวทมนตร์ และบททดสอบแห่งรัก</p>
+        <span class="chip">🔥 กำลังมาแรง</span>
+      </a>
+
+      <a href="page_4.html" class="feature">
+        <h3 class="feat-title">แนวดราม่าเข้มข้น</h3>
+        <p class="feat-desc">อุปสรรค ปมน้ำตา และความเข้าใจผิดที่พาให้อินสุด ๆ</p>
+        <span class="chip">ดราม่าจัดเต็ม</span>
+      </a>
+
+      <a href="page_5.html" class="feature">
+        <h3 class="feat-title">โรแมนติก-คอมเมดี้</h3>
+        <p class="feat-desc">ความรักกุ๊กกิ๊กใส ๆ มีมุกฮาคลายเครียด ดูเพลินยิ้มตาม</p>
+        <span class="chip">ดูสบาย</span>
+      </a>
+
+      <a href="page_6.html" class="feature">
+        <h3 class="feat-title">แนววัยเรียน/มหาลัย</h3>
+        <p class="feat-desc">มิตรภาพ ความฝัน และความรักของวัยรุ่นทั้งใส ๆ และเข้ม ๆ</p>
+        <span class="chip">ฟีลกู๊ด</span>
+      </a>
+      
+      <a href="page_world.html" class="feature world-box">
+        <h3 class="feat-title">🌍 ซีรีส์วายทั่วโลก</h3>
+        <p class="feat-desc">รวมซีรีส์วายจากทั่วทุกมุมโลก<br>เลือกทวีป → เลือกประเทศ → ค้นหาเรื่องที่ชอบ</p>
+        <span class="chip">world ✨</span>
+      </a>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="actors">
+    <h2 id="actors">แนะนำนักแสดง</h2>
+    <div class="features">
+      <a href="page_11.html" class="feature">
+        <h3 id="actor-box-title">นักแสดง</h3>
+        <p id="actor-box-desc">บทบาทนำ ถ่ายทอดอารมณ์ได้อย่างลึกซึ้งจนคนดูอิน</p>
+        <span class="chip" id="actor-box-chip">ตัวหลัก</span>
+      </a>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2 id="faq-section-title">คำถามที่พบบ่อย</h2>
+    <div class="faq"></div>
+  </section>
+
+  <script>
+    function toggleFavorite(btn) {
+      btn.classList.toggle('active');
+    }
+
+    // ฟังก์ชันค้นหาหนังและแสดงผลแบบเรียลไทม์ (Instant Live Search)
+    function liveSearch() {
+      const q = document.getElementById('q').value.trim().toLowerCase();
+      const container = document.getElementById('liveSearchContainer');
+      const liveRail = document.getElementById('liveSearchRail');
+      
+      // ถ้าช่องค้นหาว่าง ให้ซ่อนกล่องผลลัพธ์
+      if (!q) {
+        container.style.display = 'none';
+        liveRail.innerHTML = '';
+        return;
+      }
+
+      // ดึงข้อมูลการ์ดทั้งหมดจากหมวดหมู่ยอดนิยมมาใช้เป็นฐานข้อมูลหลักในการเสิร์ช
+      const originalCards = document.querySelectorAll('#rail .card');
+      let matchesFound = false;
+      liveRail.innerHTML = '';
+
+      originalCards.forEach(card => {
+        const titleText = card.querySelector('.meta').textContent;
+        if (titleText.toLowerCase().includes(q)) {
+          matchesFound = true;
+          // ทำการ Clone โครงสร้างการ์ดมาแสดงผล พร้อมคัดลอกสถานะปุ่มดาวด้วย
+          const clone = card.cloneNode(true);
+          
+          // ผูก Event ให้กับปุ่มดาวและลิงก์บนการ์ดใบใหม่ที่ถูกโคลนมา
+          const oldFavBtn = card.querySelector('.fav-btn');
+          const newFavBtn = clone.querySelector('.fav-btn');
+          if (oldFavBtn.classList.contains('active')) {
+            newFavBtn.classList.add('active');
+          }
+          newFavBtn.setAttribute('onclick', 'toggleFavorite(this); syncFavoriteWithMain(this, "' + titleText.replace(/"/g, '\\"') + '")');
+          
+          liveRail.appendChild(clone);
+        }
+      });
+
+      // แสดงข้อความ "ไม่พบข้อมูล" หากค้นหาไม่เจอ
+      if (!matchesFound) {
+        const noResult = document.createElement('div');
+        noResult.className = 'no-result-text';
+        noResult.textContent = currentLang === 'th' ? '❌ ไม่พบซีรีส์ที่คุณค้นหา' : '❌ No series found';
+        liveRail.appendChild(noResult);
+      }
+
+      container.style.display = 'block';
+    }
+
+    // ซิงค์สถานะดาวโปรดระหว่างหน้าต่าง Live Search กับแถวยอดนิยมหลัก
+    function syncFavoriteWithMain(clonedBtn, titleText) {
+      const originalMetas = document.querySelectorAll('#rail .card .meta');
+      originalMetas.forEach(meta => {
+        if (meta.textContent === titleText) {
+          const mainCard = meta.closest('.card');
+          const mainFavBtn = mainCard.querySelector('.fav-btn');
+          if (clonedBtn.classList.contains('active')) {
+            mainFavBtn.classList.add('active');
+          } else {
+            mainFavBtn.classList.remove('active');
+          }
+        }
+      });
+    }
+
+    const rail = document.getElementById('rail');
+    const leftBtn = document.querySelector('.chev.left');
+    const rightBtn = document.querySelector('.chev.right');
+
+    function getStep(){
+      const card = rail.querySelector('.card');
+      if(!card) return 300;
+      const style = getComputedStyle(rail);
+      const gap = parseInt(style.columnGap || style.gap || 20, 10);
+      return card.getBoundingClientRect().width + gap;
+    }
+
+    function snapScroll(dir){
+      rail.scrollBy({ left: dir * getStep(), behavior: 'smooth' });
+    }
+    leftBtn.addEventListener('click', ()=> snapScroll(-1));
+    rightBtn.addEventListener('click', ()=> snapScroll(1));
+
+    rail.addEventListener('keydown', (e)=>{
+      if(e.key === 'ArrowRight') snapScroll(1);
+      if(e.key === 'ArrowLeft')  snapScroll(-1);
+    });
+    rail.tabIndex = 0; 
+
+    let isDown=false, startX=0, startScroll=0;
+    rail.addEventListener('mousedown', (e)=>{
+      if (e.target.closest('.fav-btn')) return;
+      isDown=true; startX=e.pageX; startScroll=rail.scrollLeft; rail.classList.add('dragging');
+    });
+    window.addEventListener('mouseup', ()=>{isDown=false; rail.classList.remove('dragging')});
+    rail.addEventListener('mouseleave', ()=>{isDown=false; rail.classList.remove('dragging')});
+    rail.addEventListener('mousemove', (e)=>{
+      if(!isDown) return;
+      const dx = e.pageX - startX;
+      rail.scrollLeft = startScroll - dx;
+    });
+
+    const resizeObserver = new ResizeObserver(() => {
+      const bound = rail.getBoundingClientRect();
+      document.querySelector('.chev.left').style.left  = bound.width < 480 ? '-2px' : '-6px';
+      document.querySelector('.chev.right').style.right = bound.width < 480 ? '-2px' : '-6px';
+    });
+    resizeObserver.observe(rail);
+  </script>
+
+  <script>
+  const langData = {
+    th: {
+      langBtn: "ภาษาไทย",
+      loginBtn: "เข้าสู่ระบบ",
+      searchPlaceholder: "พิมพ์ชื่อเรื่องที่คุณสนใจ…",
+      searchButton: "ค้นหา",
+      searchSuggestion: "ลองเช่น: เขมจิราต้องรอด, Moonlight Chicken, Last Twilight",
+      heroTitle: "ซีรีส์วายสุดฟิน <br>และความสนุกอีกมากมายให้คุณอินได้ทุกวัน",
+      heroSubtitle: "แนะนำซีรีส์สำหรับคุณ",
+      liveSearchTitle: "ผลการค้นหาข้อมูล",
+      popular: "ยอดนิยม",
+      recs: "ซีรีส์ที่แนะนำ",
+      actorsTitle: "แนะนำนักแสดง",
+      actorBoxTitle: "นักแสดง",
+      actorBoxDesc: "บทบาทนำ ถ่ายทอดอารมณ์ได้อย่างลึกซึ้งจนคนดูอิน",
+      actorBoxChip: "ตัวหลัก",
+      faqTitle: "คำถามที่พบบ่อย",
+      features: [
+        {title: "วายย้อนยุคแฟนตาซี", desc: "การต่อสู้ชิงบัลลังก์ องครักษ์ผู้ภักดี คำพยากรณ์โบราณ เวทมนตร์ และบททดสอบแห่งรัก", chip: "🔥 กำลังมาแรง"},
+        {title: "แนวดราม่าเข้มข้น", desc: "อุปสรรค ปมน้ำตา และความเข้าใจผิดที่พาให้อินสุด ๆ", chip: "ดราม่าจัดเต็ม"},
+        {title: "โรแมนติก-คอมเมดี้", desc: "ความรักกุ๊กกิ๊กใส ๆ มีมุกฮาคลายเครียด ดูเพลินยิ้มตาม", chip: "ดูสบาย"},
+        {title: "แนววัยเรียน/มหาลัย", desc: "มิตรภาพ ความฝัน และความรักของวัยรุ่นทั้งใส ๆ และเข้ม ๆ", chip: "ฟีลกู๊ด"},
+        {title: "🌍 ซีรีส์วายทั่วโลก", desc: "รวมซีรีส์วายจากทั่วทุกมุมโลก<br>เลือกทวีป → เลือกประเทศ → ค้นหาเรื่องที่ชอบ", chip: "world ✨"}
+      ],
+      faq: [
+        { q: "YSeriesHub คืออะไร", a: "YSeriesHub คือแหล่งรวมคอนเทนต์เกี่ยวกับ Y Series (Boys’ Love) ทั้งข้อมูล รีวิว ข่าว และลิงก์รับชม จัดหมวดหมู่ให้ค้นหาได้สะดวก" },
+        { q: "ฟังก์ชันหลักของ YSeriesHub", a: "• สตรีมมิ่งหลายอุปกรณ์ • ดาวน์โหลดดูออฟไลน์ • รายการโปรด/ประวัติการดู • ระบบแนะนำอัจฉริยะ • หลายภาษา/ซับไทย • คุณภาพสูงถึง 4K • อินเทอร์เฟซใช้งานง่าย" },
+        { q: "รับชมได้จากที่ไหนบ้าง", a: "ดูได้บนคอมพิวเตอร์ โทรศัพท์ แท็บเล็ต และสมาร์ททีวีที่รองรับ" },
+        { q: "ความบันเทิงที่มีใน YSeriesHub", a: "ซีรีส์วัยรุ่น/โรแมนติกชายรักชายยอดนิยม พร้อมอัปเดตเรื่องใหม่ ๆ ตลอด" }
+      ]
+    },
+    en: {
+      langBtn: "English",
+      loginBtn: "Login",
+      searchPlaceholder: "Type the title you're interested in…",
+      searchButton: "Search",
+      searchSuggestion: "Try: Khemjira The Series, Moonlight Chicken, Last Twilight",
+      heroTitle: "Exciting Boys' Love Series <br>and more fun every day",
+      heroSubtitle: "Recommended series for you",
+      liveSearchTitle: "Search Results",
+      popular: "Popular",
+      recs: "Recommended Series",
+      actorsTitle: "Featured Actors",
+      actorBoxTitle: "Actors",
+      actorBoxDesc: "Leading roles delivering deep emotional performances that captivate viewers.",
+      actorBoxChip: "Main",
+      faqTitle: "Frequently Asked Questions",
+      features: [
+        {title: "Period Fantasy BL", desc: "Throne battles, loyal guards, ancient prophecies, magic, and tests of true love.", chip: "🔥 Trending"},
+        {title: "Intense Drama", desc: "Obstacles, deep emotional conflicts, and misunderstandings that keep you hooked.", chip: "Full Drama"},
+        {title: "Romantic Comedy", desc: "Cute and sweet romance with funny moments to brighten your day.", chip: "Light Watch"},
+        {title: "School/University Life", desc: "Friendships, dreams, and sweet or bittersweet youth romance.", chip: "Feel Good"},
+        {title: "🌍 Global Y-Series", desc: "Bringing BL content from all corners of the world.<br>Select Continent → Country → Find your favorites.", chip: "world ✨"}
+      ],
+      faq: [
+        { q: "What is YSeriesHub?", a: "YSeriesHub is a source of content about Y Series (Boys’ Love), including info, reviews, news, and streaming links, categorized for easy search." },
+        { q: "Main features of YSeriesHub", a: "• Multi-device streaming • Offline download • Favorites / Watch history • Smart recommendations • Multi-language / Thai subtitles • Up to 4K quality • Easy interface" },
+        { q: "Where can I watch?", a: "Available on computer, phone, tablet, and supported smart TVs." },
+        { q: "Content available on YSeriesHub", a: "Popular teen/Boys' Love series, updated regularly with new titles." }
+      ]
+    }
+  };
+
+  let currentLang = 'th'; 
+
+  const langBtn = document.getElementById('lang-toggle-btn');
+  const loginBtn = document.getElementById('login-nav-btn');
+
+  langBtn.addEventListener('click', ()=>{
+    currentLang = currentLang === 'th' ? 'en' : 'th';
+    updateLanguage();
+    liveSearch(); // เรียกฟังก์ชันซ้ำเพื่อให้กล่องผลลัพธ์แปลทันทีหากเปิดอยู่
+  });
+
+  function updateLanguage() {
+    const data = langData[currentLang];
+    
+    langBtn.textContent = data.langBtn;
+    loginBtn.textContent = data.loginBtn;
+
+    document.getElementById('q').placeholder = data.searchPlaceholder;
+    document.querySelector('.search button').textContent = data.searchButton;
+    document.getElementById('search-suggestion').textContent = data.searchSuggestion;
+    document.getElementById('liveSearchTitle').textContent = data.liveSearchTitle;
+    
+    document.querySelector('.hero h1').innerHTML = data.heroTitle;
+    document.querySelector('.hero h2').textContent = data.heroSubtitle;
+    
+    document.getElementById('popular').textContent = data.popular;
+    document.getElementById('recs').textContent = data.recs;
+    document.getElementById('actors').textContent = data.actorsTitle;
+    document.getElementById('faq-section-title').textContent = data.faqTitle;
+
+    const featBlocks = document.querySelectorAll('.features .feature:not(.world-box), .world-box');
+    data.features.forEach((item, index) => {
+      if(featBlocks[index]) {
+        featBlocks[index].querySelector('h3').textContent = item.title;
+        featBlocks[index].querySelector('p').innerHTML = item.desc;
+        featBlocks[index].querySelector('.chip').textContent = item.chip;
+      }
+    });
+
+    document.getElementById('actor-box-title').textContent = data.actorBoxTitle;
+    document.getElementById('actor-box-desc').textContent = data.actorBoxDesc;
+    document.getElementById('actor-box-chip').textContent = data.actorBoxChip;
+
+    const faqDiv = document.querySelector('.faq');
+    faqDiv.innerHTML = '';
+    data.faq.forEach(f => {
+      const details = document.createElement('details');
+      const summary = document.createElement('summary');
+      summary.textContent = f.q;
+      const content = document.createElement('div');
+      content.className = 'content';
+      content.textContent = f.a;
+      details.appendChild(summary);
+      details.appendChild(content);
+      faqDiv.appendChild(details);
+    });
+  }
+
+  updateLanguage();
+</script>
+
+</body>
+</html>
